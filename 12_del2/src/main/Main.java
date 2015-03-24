@@ -1,5 +1,5 @@
 package main;
-
+// OK fra Thomas
 import logic.Logic;
 import controller.Controller;
 import entity.Data;
