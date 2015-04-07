@@ -3,6 +3,7 @@ package logic;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import controller.Connector;
 import entity.IData;
 
 public class Logic implements ILogic {

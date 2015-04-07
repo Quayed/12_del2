@@ -14,6 +14,7 @@ public class Controller {
 	private int currentOperator;
 	private ILogic logic;
 	private IData data;
+	private Connector connector;
 
 	public Controller(ILogic logic, IData data) {
 		this.logic = logic;
@@ -58,7 +59,7 @@ public class Controller {
 			} else{
 				logic.readMessage("Indtast nr.");
 			}
-			//conector.getData();
+			connector.getData();
 			
 			while(!data.hasData());
 			try{
