@@ -99,9 +99,10 @@ public class Controller {
 					connector.readMessage("Indtast raavare nr.");
 				}
 				try{
-					connector.getData();
+					System.out.println(connector.getData());
 					String gottenData = connector.getData();
 					productId = Integer.parseInt(gottenData.substring(8, gottenData.length()-1));
+					System.out.println(productId);
 					isNotANumber = false;
 				} catch (NumberFormatException e){
 					isNotANumber = true;
@@ -116,26 +117,38 @@ public class Controller {
 				}
 				String line = null;
 				try {
-					while((line =reader.readLine()) != null){
-						notCorrect = true;
-						if(line.startsWith(String.valueOf(productId))){
-							productName = line.substring(line.indexOf(",")+2, line.indexOf(",", line.indexOf(",") +1));
-							notCorrect = false;
-							break;
+					while(true){
+						line = reader.readLine();
+						if(line != null){
+							notCorrect = true;
+							if(line.startsWith(String.valueOf(productId))){
+								productName = line.substring(line.indexOf(",")+2, line.indexOf(",", line.indexOf(",") +1));
+								System.out.println("Product found: "+productName);
+								notCorrect = false;
+								break;
+							}
 						}
+						else
+							break;
 					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} finally {
+					try {
+						reader.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 				
-			}while(isNotANumber || notCorrect);
+			} while(isNotANumber || notCorrect);
 			
 			connector.readMessage("Er " + productName + " rigtigt? 1/0");
-			connector.getData();
+			System.out.println(connector.getData());
 			String gottenData = connector.getData();
+			System.out.println(gottenData);
 			if(gottenData.substring(8, gottenData.length()-1).equals("1")){
-				String[] productArray = {productName, String.valueOf(productId)};
+				String[] productArray = {String.valueOf(productId), productName};
 				return productArray;
 			} 
 		}
