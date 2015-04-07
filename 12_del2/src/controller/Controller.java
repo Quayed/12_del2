@@ -100,7 +100,8 @@ public class Controller {
 				}
 				try{
 					connector.getData();
-					productId = Integer.parseInt(connector.getData());
+					String gottenData = connector.getData();
+					productId = Integer.parseInt(gottenData.substring(8, gottenData.length()-1));
 					isNotANumber = false;
 				} catch (NumberFormatException e){
 					isNotANumber = true;
@@ -132,7 +133,8 @@ public class Controller {
 			
 			connector.readMessage("Er " + productName + " rigtigt? 1/0");
 			connector.getData();
-			if(connector.getData().equals("1")){
+			String gottenData = connector.getData();
+			if(gottenData.substring(8, gottenData.length()-1).equals("1")){
 				String[] productArray = {productName, String.valueOf(productId)};
 				return productArray;
 			} 
