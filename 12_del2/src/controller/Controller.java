@@ -15,7 +15,8 @@ public class Controller {
 	private ILogic logic;
 	private IData data;
 	private Connector connector;
-
+	private int productId;
+	private String productName;
 	public Controller(ILogic logic, IData data) {
 		this.logic = logic;
 		this.data = data;
@@ -28,9 +29,9 @@ public class Controller {
 	
 	private void start(){
 		currentOperator = getOperatorId();
-		logic.readMessage("Indtast raavare nr.");
-		while(!data.hasData());
-		data.pullData();
+		String[] productArray = getProduct();
+		productId = Integer.parseInt(productArray[0]);
+		productName = productArray[1];
 	}
 
 	// once called, this method will ask the user to connect by specifying a relevant address until a connection has been made
@@ -59,17 +60,49 @@ public class Controller {
 			} else{
 				logic.readMessage("Indtast nr.");
 			}
-			connector.getData();
-			
-			while(!data.hasData());
 			try{
-				operator = Integer.parseInt(data.pullData());
+				operator = Integer.parseInt(connector.getData());
+				isNotANumber = false;
 			} catch (NumberFormatException e){
 				isNotANumber = true;
 			}
 		}while(isNotANumber);
 		return operator;
 		// Operator skal måske verificeres (ID slås op)
+	}
+	
+	private String[] getProduct(){
+		boolean isNotANumber = false;
+		boolean notCorrect = false;
+		int productId = 0;
+		String productName = "";
+		while(true){
+			do {
+				if(isNotANumber){
+					logic.readMessage("Ikke en int, indtast nr.");
+				} else{
+					logic.readMessage("Indtast nr.");
+				}
+				try{
+					productId = Integer.parseInt(connector.getData());
+					isNotANumber = false;
+				} catch (NumberFormatException e){
+					isNotANumber = true;
+					continue;
+				}
+				
+				// slå op om produktet findes
+				// set productName til noget 
+				
+			}while(isNotANumber || notCorrect);
+			
+			logic.readMessage("Er " + productName + " rigtigt? 1/0");
+			
+			if(connector.getData().equals("1")){
+				String[] productArray = {productName, String.valueOf(productId)};
+				return productArray;
+			} 
+		}
 	}
 	
 }
