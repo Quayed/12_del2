@@ -12,7 +12,7 @@ import entity.IData;
 public class Controller {
 
 	private static final String DEFAULT_HOST = "localhost";
-	private static final int DEFAULT_PORT = 4567;
+	private static final int DEFAULT_PORT = 8000;
 	
 	private int currentOperator;
 	private ILogic logic;
@@ -23,6 +23,7 @@ public class Controller {
 	public Controller(ILogic logic, IData data) {
 		this.logic = logic;
 		this.data = data;
+		this.connector = new Connector(data);
 
 		// asks for connecting to server on startup
 		connect(logic);
@@ -31,6 +32,8 @@ public class Controller {
 	}
 	
 	private void start(){
+		connector.sendMessage("S");
+		connector.getData();
 		currentOperator = getOperatorId();
 		String[] productArray = getProduct();
 		productId = Integer.parseInt(productArray[0]);
@@ -38,13 +41,13 @@ public class Controller {
 	}
 
 	// once called, this method will ask the user to connect by specifying a relevant address until a connection has been made
-	static void connect(ILogic logic) {
+	private void connect(ILogic logic) {
 		boolean connectionError;
 
 		do {
 			connectionError = false;
 			try {
-				logic.connect(DEFAULT_HOST, DEFAULT_PORT);
+				connector.connect(DEFAULT_HOST, DEFAULT_PORT);
 			} catch (UnknownHostException e) {
 				connectionError = true;
 				
@@ -59,12 +62,12 @@ public class Controller {
 		int operator = 0;
 		do {
 			if(isNotANumber){
-				logic.readMessage("Ikke en int, indtast nr.");
+				connector.readMessage("Ikke en int, indtast nr.");
 			} else{
-				logic.readMessage("Indtast nr.");
+				connector.readMessage("Indtast nr.");
 			}
 			try{
-				connector.getData();
+				System.out.println(connector.getData());
 				operator = Integer.parseInt(connector.getData());
 				isNotANumber = false;
 			} catch (NumberFormatException e){

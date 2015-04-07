@@ -6,6 +6,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayDeque;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 import entity.IData;
 
@@ -14,30 +19,32 @@ public class Connector extends Thread {
 	private DataOutputStream out;
 	private BufferedReader in;
 	private Socket clientSocket;
-	private IData data;
+	private boolean connected;
+	private Queue<String> dataBuffer = new ArrayDeque<String>();
 
 	public Connector(IData data) {
-		this.data = data;
 	}
 
 	// this thread continuously reads server inputs on the sockets and stores them in a data stack to be handled later
 	@Override
 	public void run() {
 		String input;
+		int sleep = 100;
+		
 		while (true) {
-			int sleep;
-			sleep = 100;
-			try {
-
-				Thread.sleep(sleep);
-			} catch (InterruptedException e) {
-			}
-			try {
-				input = in.readLine();
-				data.putData(input);
-			} catch (IOException e) {
-				// System.out.println("Not connected!");
-				data.setConnected(false);
+			while(true){
+				try {
+					input = in.readLine();
+					dataBuffer.add(input);
+					break;
+				} catch (IOException e) {
+					connected = false;
+				}
+				try {
+					Thread.sleep(sleep);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -47,7 +54,8 @@ public class Connector extends Thread {
 		clientSocket = new Socket(host, port);
 		out = new DataOutputStream(clientSocket.getOutputStream());
 		in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		data.setConnected(true);
+		connected = true;
+		
 		if (!isAlive())
 			start();
 	}
@@ -58,15 +66,24 @@ public class Connector extends Thread {
 			out.writeBytes(msg + "\r\n");
 		} catch (IOException e) {
 			// System.out.println("Not connected!");
-			data.setConnected(false);
+			connected = false;
 			return false;
 		}
 		return true;
 	}
 
 	public String getData() {
-		// TODO Auto-generated method stub
-		return null;
+	//	dataBuffer.clear();
+		while(dataBuffer.isEmpty());
+		
+		String data = "null";
+			data = dataBuffer.poll();
+
+		return data;
+	}
+
+	public void readMessage(String msg) {
+		sendMessage("RM20 8 \""+msg+"\" \"\" \"&3\"");
 	}
 
 }
