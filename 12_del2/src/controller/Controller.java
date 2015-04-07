@@ -68,7 +68,9 @@ public class Controller {
 			}
 			try{
 				System.out.println(connector.getData());
-				operator = Integer.parseInt(connector.getData());
+				String gottenData = connector.getData();
+				
+				operator = Integer.parseInt(gottenData.substring(8, gottenData.length()-1));
 				isNotANumber = false;
 			} catch (NumberFormatException e){
 				isNotANumber = true;
