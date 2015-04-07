@@ -9,8 +9,9 @@ import entity.IData;
 public class Controller {
 
 	private static final String DEFAULT_HOST = "localhost";
-	private static final int DEFAULT_PORT = 8000;
-
+	private static final int DEFAULT_PORT = 4567;
+	
+	private int currentOperator;
 	private ILogic logic;
 	private IData data;
 
@@ -25,13 +26,10 @@ public class Controller {
 	}
 	
 	private void start(){
-		logic.readMessage("Indtast nr.");
-		while(!data.hasData())
-			data.pullData();
-		
+		currentOperator = getOperatorId();
 		logic.readMessage("Indtast raavare nr.");
-		while(!data.hasData())
-			data.pullData();
+		while(!data.hasData());
+		data.pullData();
 	}
 
 	// once called, this method will ask the user to connect by specifying a relevant address until a connection has been made
@@ -51,4 +49,26 @@ public class Controller {
 		} while (connectionError);
 	}
 
+	private int getOperatorId(){
+		boolean isNotANumber = false;
+		int operator = 0;
+		do {
+			if(isNotANumber){
+				logic.readMessage("Ikke en int, indtast nr.");
+			} else{
+				logic.readMessage("Indtast nr.");
+			}
+			//conector.getData();
+			
+			while(!data.hasData());
+			try{
+				operator = Integer.parseInt(data.pullData());
+			} catch (NumberFormatException e){
+				isNotANumber = true;
+			}
+		}while(isNotANumber);
+		return operator;
+		// Operator skal måske verificeres (ID slås op)
+	}
+	
 }
