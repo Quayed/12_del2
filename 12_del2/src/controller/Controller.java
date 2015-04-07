@@ -1,5 +1,8 @@
 package controller;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
@@ -76,12 +79,15 @@ public class Controller {
 		boolean notCorrect = false;
 		int productId = 0;
 		String productName = "";
+		BufferedReader reader = null;
 		while(true){
 			do {
 				if(isNotANumber){
-					logic.readMessage("Ikke en int, indtast nr.");
+					logic.readMessage("Ikke en int, indtast raavare nr.");
+				} else if(notCorrect){
+					logic.readMessage("Raavare findes ik, indtast raavare nr.");
 				} else{
-					logic.readMessage("Indtast nr.");
+					logic.readMessage("Indtast raavare nr.");
 				}
 				try{
 					productId = Integer.parseInt(connector.getData());
@@ -91,8 +97,26 @@ public class Controller {
 					continue;
 				}
 				
-				// slå op om produktet findes
-				// set productName til noget 
+				try {
+					reader = new BufferedReader(new FileReader("store.txt"));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				String line = null;
+				try {
+					while((line =reader.readLine()) != null){
+						notCorrect = true;
+						if(line.startsWith(String.valueOf(productId))){
+							productName = line.substring(line.indexOf(",")+2, line.indexOf(",", line.indexOf(",") +1));
+							notCorrect = false;
+							break;
+						}
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 			}while(isNotANumber || notCorrect);
 			
