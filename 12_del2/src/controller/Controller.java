@@ -71,6 +71,9 @@ public class Controller {
 				String gottenData = connector.getData();
 				
 				operator = Integer.parseInt(gottenData.substring(8, gottenData.length()-1));
+				
+				System.out.println(operator);
+				
 				isNotANumber = false;
 			} catch (NumberFormatException e){
 				isNotANumber = true;
@@ -89,11 +92,11 @@ public class Controller {
 		while(true){
 			do {
 				if(isNotANumber){
-					logic.readMessage("Ikke en int, indtast raavare nr.");
+					connector.readMessage("Ikke en int, indtast raavare nr.");
 				} else if(notCorrect){
-					logic.readMessage("Raavare findes ik, indtast raavare nr.");
+					connector.readMessage("Raavare findes ik, indtast raavare nr.");
 				} else{
-					logic.readMessage("Indtast raavare nr.");
+					connector.readMessage("Indtast raavare nr.");
 				}
 				try{
 					connector.getData();
@@ -127,7 +130,7 @@ public class Controller {
 				
 			}while(isNotANumber || notCorrect);
 			
-			logic.readMessage("Er " + productName + " rigtigt? 1/0");
+			connector.readMessage("Er " + productName + " rigtigt? 1/0");
 			connector.getData();
 			if(connector.getData().equals("1")){
 				String[] productArray = {productName, String.valueOf(productId)};
