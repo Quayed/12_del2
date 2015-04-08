@@ -47,16 +47,20 @@ public class FTP_Client
 
     private Socket getData() throws IOException
     {
+        // Enabling passive to recieve data:
         String adress = send("PASV");
+        // Append tokens with ',':
         StringTokenizer st = new StringTokenizer(adress, "(,)");
         if (st.countTokens() < 7)
         {
-            throw new IOException("Message recieved does not follow the regular 7 token syntax (MSG.IP.IP.IP.IP.PORT.PORT");
+            throw new IOException("Message recieved does not follow the regular 7-token syntax (MSG.IP.IP.IP.IP.PORT.PORT");
         }
+        // Saving the first five tokens (Message + ip-adress):
         for (int i = 0; i < 5; i++)
         {
             st.nextToken();
         }
+        // Parsing the last two tokens as integers to calculate port number, by multiplying the sixth byte by 256 and adding the seventh byte (256 * token6 + token7):
         int portNr = 256 * Integer.parseInt(st.nextToken()) + Integer.parseInt(st.nextToken());
         return new Socket(socket.getInetAddress(), portNr);
     }

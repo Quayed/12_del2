@@ -10,12 +10,13 @@ public class Zybo_Client
 
     public static void main(String[] args) throws IOException, InterruptedException, ConnectException
     {
+        boolean connected = false;
         Date rawDate = new Date();
-        SimpleDateFormat sdataSocket = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss - ");
+        SimpleDateFormat sdataSocket = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String date = sdataSocket.format(rawDate);
         java.util.Scanner key = new java.util.Scanner(System.in);
         FTP_Client FTP = new FTP_Client();
-        
+        System.out.println(date);
         System.out.println("Zybo FTP/TCP-Connecter v0.1");
         System.out.println("\nEnter username: ");
         String pass;
@@ -36,18 +37,18 @@ public class Zybo_Client
                 catch (ConnectException e)
                 {
                     //e.printStackTrace();
-                    System.out.println("Connection timeout...");
+                    System.out.println("Connection timeout!");
                     System.exit(-1);
                 }
+                connected = true;
             }
         }
+        if (connected)
+        {
+            FTP.send("HELP");
+        }
 
-        //FTP.send("HELP");
         //FTP.getMSG("LIST");
-        //String indhold = "Indhold af en lille fil med navnet:\ntil.txt";
-        //f.sendTekst("STOR fil.txt", indhold);       // gem en tekstfil på værten
-        // indhold = f.modtagTekst("RETR fil.txt");    // hent filen igen 
-        // System.out.println("Fil hentet med indholdet: "+indhold);
     }
 
 }
