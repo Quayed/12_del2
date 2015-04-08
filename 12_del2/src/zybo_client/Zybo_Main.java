@@ -5,7 +5,7 @@ import java.net.ConnectException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Zybo_Client
+public class Zybo_Main
 {
 
     public static void main(String[] args) throws IOException, InterruptedException, ConnectException
