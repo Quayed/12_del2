@@ -19,11 +19,11 @@ public class Zybo_Client
         System.out.println("\nEnter username: ");
         String pass;
         String user = key.nextLine();
-        if (user != null)
+        if (!user.equals("") && !user.equals(null))
         {
             System.out.println("\nEnter password: ");
             pass = key.nextLine();
-            if (pass != null)
+            if (!pass.equals("") && !pass.equals(null))
             {
                 try
                 {
@@ -46,6 +46,8 @@ public class Zybo_Client
         if (connected)
         {
             FTP.send("HELP");
+            
+            key.nextLine();
         }
 
         //FTP.getMSG("LIST");
