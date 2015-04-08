@@ -92,7 +92,7 @@ public class Zybo_Main
                                     PrintWriter out = new PrintWriter(file);
                                     out.write(answer);
                                     out.close();
-                                    System.out.println("\n" + sdataSocket.format(new Date()) + " - (" + name + ") has been downloaded succesfully!");
+                                    System.out.println("\n" + sdataSocket.format(new Date()) + " - <" + name + "> has been downloaded succesfully!");
                                 }
                                 catch (FileNotFoundException e)
                                 {
