@@ -11,13 +11,9 @@ public class FTP_Client
     private Socket socket;
     private BufferedReader in;
     private PrintStream out;
-    private Date rawDate;
-    private SimpleDateFormat sdataSocket = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss - ");
 
     public String send(String in) throws IOException
     {
-        //rawDate = new Date();
-        //System.out.println(sdataSocket.format(rawDate) + "MSG: " + in);
         out.println(in);
         out.flush();
         return getAnswer();
@@ -28,8 +24,6 @@ public class FTP_Client
         while (true)
         {
             String input = in.readLine();
-            //rawDate = new Date();
-            //System.out.println(sdataSocket.format(rawDate) + "MSG: " + input);
             if (input.length() >= 3 && input.charAt(3) != '-' && Character.isDigit(input.charAt(0)) && Character.isDigit(input.charAt(1)) && Character.isDigit(input.charAt(2)))
             {
                 return input;
@@ -59,7 +53,8 @@ public class FTP_Client
         StringTokenizer st = new StringTokenizer(adress, "(,)");
         if (st.countTokens() < 7)
         {
-            rawDate = new Date();
+            SimpleDateFormat sdataSocket = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss - ");
+            Date rawDate = new Date();
             throw new IOException(sdataSocket.format(rawDate) + "Message receved does not follow the regular 7-token syntax (MSG.IP.IP.IP.IP.PORT.PORT");
         }
         // Saving the first five tokens (Message + ip-adress):
