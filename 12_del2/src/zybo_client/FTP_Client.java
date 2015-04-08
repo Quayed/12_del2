@@ -54,8 +54,7 @@ public class FTP_Client
         if (st.countTokens() < 7)
         {
             SimpleDateFormat sdataSocket = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss - ");
-            Date rawDate = new Date();
-            throw new IOException(sdataSocket.format(rawDate) + "Message receved does not follow the regular 7-token syntax (MSG.IP.IP.IP.IP.PORT.PORT");
+            throw new IOException(sdataSocket.format(new Date()) + "Message receved does not follow the regular 7-token syntax (MSG.IP.IP.IP.IP.PORT.PORT");
         }
         // Saving the first five tokens (Message + ip-adress):
         for (int i = 0; i < 5; i++)
@@ -69,7 +68,7 @@ public class FTP_Client
 
     public void sendData(String out, String data) throws IOException
     {
-        Socket dataSocket = getData();
+        Socket dataSocket = FTP_Client.this.getData();
         PrintStream dataOut = new PrintStream(dataSocket.getOutputStream());
         send(out);
         dataOut.print(data);
@@ -78,14 +77,21 @@ public class FTP_Client
         getAnswer();
     }
 
-    public String getMSG(String out) throws IOException
+    public String getData(String out) throws IOException
     {
-        Socket dataSocket = getData();
+        Socket dataSocket = FTP_Client.this.getData();
         BufferedReader dataIn = new BufferedReader(new InputStreamReader(dataSocket.getInputStream()));
-        send(out);
+        String msg = send(out);
+        if (msg.contains("550"))
+        {
+            return "File not found";
+        }
+        else if (msg.contains("250"))
+        {
+            return "File deleted";
+        }
         StringBuilder sb = new StringBuilder();
         String input = dataIn.readLine();
-        //rawDate = new Date();
         sb.append("\n");
         while (input != null)
         {

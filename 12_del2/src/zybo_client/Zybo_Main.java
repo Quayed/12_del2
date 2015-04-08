@@ -1,6 +1,8 @@
 package zybo_client;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,7 +15,7 @@ public class Zybo_Main
         boolean connected;
         String pass;
         String user;
-        Date rawDate;
+        String ip;
         SimpleDateFormat sdataSocket = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         java.util.Scanner key = new java.util.Scanner(System.in);
         FTP_Client FTP = new FTP_Client();
@@ -25,54 +27,87 @@ public class Zybo_Main
             int type = key.nextInt();
             if (type == 1)
             {
-                System.out.println("\nEnter username: ");
+                System.out.println("\nEnter IP-adress: ");
                 key.nextLine();
-                user = key.nextLine();
-                if (!user.equals(""))
+                ip = key.nextLine();
+                if (!ip.equals(""))
                 {
-                    System.out.println("\nEnter password: ");
-                    pass = key.nextLine();
-                    if (!pass.equals(""))
+                    System.out.println("\nEnter username: ");
+                    user = key.nextLine();
+                    if (!user.equals(""))
                     {
-                        try
+                        System.out.println("\nEnter password: ");
+                        pass = key.nextLine();
+                        if (!pass.equals(""))
                         {
-                            rawDate = new Date();
-                            System.out.println("\n" + sdataSocket.format(rawDate) + " - Connecting to server...");
-
-                            if (FTP.connect("192.168.0.38", user, pass))
+                            try
                             {
-                                connected = true;
+                                System.out.println("\n" + sdataSocket.format(new Date()) + " - Connecting to server...");
+
+                                if (FTP.connect("192.168.0.38", "xilinx", "ftp"))
+                                {
+                                    connected = true;
+                                }
+                                else
+                                {
+                                    System.out.println("\nCredentials denied!\n");
+                                }
+                            }
+                            catch (ConnectException e)
+                            {
+                                //e.printStackTrace();
+                                System.out.println("\n" + sdataSocket.format(new Date()) + " - Connection timed out. Exiting!");
+                                System.exit(-1);
+                            }
+                        }
+                    }
+                    while (connected)
+                    {
+                        System.out.println("\nType '0' to return to main menu\n\nType '1' to list files:\n\nType '2' to retrieve file:\n\nType '3' to delete file:");
+                        type = key.nextInt();
+                        if (type == 1)
+                        {
+                            String answer = FTP.getData("LIST");
+                            if (answer.length() > 1)
+                            {
+                                System.out.println("\nFiles: " + answer);
                             }
                             else
                             {
-                                System.out.println("\nCredentials denied!\n");
+                                System.out.println("\nNo files on Zybo.");
+                            }                 
+                        }
+                        else if (type == 2)
+                        {                            
+                            System.out.println("\nEnter filename:\n");
+                            key.nextLine();
+                            String name = key.nextLine();
+                            String answer = FTP.getData("RETR " + name);
+                            if (!answer.equals("File not found"))
+                            {
+                                FileWriter file = new FileWriter(name);
+                                PrintWriter out = new PrintWriter(file);
+                                out.write(answer);
+                                out.close();
+                                System.out.println("\n" + sdataSocket.format(new Date()) + " - (" + name + ") has been downloaded succesfully!");
+                            }
+                            else
+                            {
+                                System.out.println("\n" + sdataSocket.format(new Date()) + " - 550 " + answer + ".");
                             }
                         }
-                        catch (ConnectException e)
+                        else if (type == 3)
                         {
-                            //e.printStackTrace();
-                            rawDate = new Date();
-                            System.out.println("\n" + sdataSocket.format(rawDate) + " - Connection timeout!");
-                            System.exit(-1);
+                            System.out.println("\nEnter filename:\n");
+                            key.nextLine();
+                            String name = key.nextLine();
+                            System.out.println("\n" + sdataSocket.format(new Date()) + " - " + FTP.send("DELE " + name));
+
                         }
-                    }
-                }
-                while (connected)
-                {
-                    System.out.println("\nType '0' to return to main menu\n\nType '1' to list files:\n\nType '2' to retrieve file:");
-                    type = key.nextInt();
-                    if (type == 1)
-                    {
-                        System.out.println("\nFiles: " + FTP.getMSG("LIST"));
-                    }
-                    else if (type == 2)
-                    {
-                        System.out.println(FTP.getMSG("RETR examples.desktop"));
-                        
-                    }
-                    else if (type == 0)
-                    {
-                        break;
+                        else if (type == 0)
+                        {
+                            break;
+                        }
                     }
                 }
             }
