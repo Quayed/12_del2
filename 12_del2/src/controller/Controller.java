@@ -6,10 +6,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import entity.Data;
+import entity.IData;
 import logic.ILogic;
 
 public class Controller {
 
+	private IData data = new Data();
+	
 	private static final String DEFAULT_HOST = "localhost";
 	private static final int DEFAULT_PORT = 8000;
 	
@@ -46,15 +50,6 @@ public class Controller {
 		start();
 	}
 	
-	private void start(){
-		connector.sendMessage("S");
-		connector.getData();
-		currentOperator = getOperatorId();
-		String[] productArray = getProduct();
-		productId = Integer.parseInt(productArray[0]);
-		productName = productArray[1];
-	}
-
 	// once called, this method will ask the user to connect by specifying a relevant address until a connection has been made
 	private void connect() {
 		boolean connectionError;
@@ -72,14 +67,24 @@ public class Controller {
 		} while (connectionError);
 	}
 
-	private int getOperatorId(){
+	private void start(){
+		connector.sendMessage("S");
+		connector.getData();
+		getOperatorId();
+		getProduct();
+		weight();
+	}
+
+
+
+	private void getOperatorId(){
 		boolean isNotANumber = false;
 		int operator = 0;
 		do {
 			if(isNotANumber){
-				connector.readMessage("Ikke en int, indtast nr.");
+				connector.rm20("Ikke en int, indtast nr.");
 			} else{
-				connector.readMessage("Indtast nr.");
+				connector.rm20("Indtast nr.");
 			}
 			try{
 				System.out.println(connector.getData());
@@ -94,7 +99,9 @@ public class Controller {
 				isNotANumber = true;
 			}
 		}while(isNotANumber);
-		return operator;
+		
+		currentOperator = operator;
+
 		// Operator skal måske verificeres (ID slås op)
 	}
 	
@@ -103,17 +110,16 @@ public class Controller {
 		boolean notCorrect = false;
 		int productId = 0;
 		String productName = "";
-		BufferedReader reader = null;
 		while(true){
 			do {
 				if(isNotANumber){
 					// Ikke en int,  husk det er max 24 karakterer
-					connector.readMessage("Indtast raavare nr.");
+					connector.rm20("Indtast raavare nr.");
 				} else if(notCorrect){
 					// Ingen raavare, husk det er max 24 karakterer
-					connector.readMessage("Indtast raavare nr.");
+					connector.rm20("Indtast raavare nr.");
 				} else{
-					connector.readMessage("Indtast raavare nr.");
+					connector.rm20("Indtast raavare nr.");
 				}
 				try{
 					System.out.println(connector.getData());
@@ -126,49 +132,61 @@ public class Controller {
 					continue;
 				}
 				
-				try {
-					reader = new BufferedReader(new FileReader("store.txt"));
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				productName = data.findMaterial(productId);
+				if(productName == null){
+					notCorrect = true;
 				}
-				String line = null;
-				try {
-					while(true){
-						line = reader.readLine();
-						if(line != null){
-							notCorrect = true;
-							if(line.startsWith(String.valueOf(productId))){
-								productName = line.substring(line.indexOf(",")+2, line.indexOf(",", line.indexOf(",") +1));
-								System.out.println("Product found: "+productName);
-								notCorrect = false;
-								break;
-							}
-						}
-						else
-							break;
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				} finally {
-					try {
-						reader.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+				else{
+					System.out.println("Product found: "+productName);
+					notCorrect = false;
 				}
-				
+								
 			} while(isNotANumber || notCorrect);
 			
-			connector.readMessage(productName + "? 1/0");
+			connector.rm20(productName + "? 1/0");
 			System.out.println(connector.getData());
 			String gottenData = connector.getData();
 			System.out.println(gottenData);
 			if(gottenData.substring(8, gottenData.length()-1).equals("1")){
 				String[] productArray = {String.valueOf(productId), productName};
+				this.productId = productId;
+				this.productName = productName;
 				return productArray;
 			} 
 		}
 	}
 	
+	private void weight(){
+		connector.rm20("Placer skål");
+		connector.getData();
+		connector.getData().equals("1");	// verificer kald
+		connector.sendMessage("T");
+		
+		String tare = connector.getData();
+		
+		connector.rm20("Læg 1.5 kg på");
+		connector.getData();
+		connector.getData().equals("1");	// verificer kald
+		
+		connector.sendMessage("S");
+		
+		String netto = connector.getData();
+
+		connector.rm20("Fjern");
+		connector.getData();
+		connector.getData().equals("1");	// verificer kald
+		
+		connector.sendMessage("T");
+		
+		String tare2 = connector.getData();
+	
+		// Registrerer minus brutto (inden for en variation på ??)
+		
+		
+		// Udskriv ”BRUTTO KONTROL OK” hvis dette er tilfældet. Ellers ?
+		
+		
+		// Afskriv mængde på lager, og opdatér historik 
+
+	}
 }
