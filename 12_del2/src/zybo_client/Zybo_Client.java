@@ -28,11 +28,11 @@ public class Zybo_Client
                 System.out.println("\nEnter username: ");
                 key.nextLine();
                 user = key.nextLine();
-                if (!user.equals("") && !user.equals(null))
+                if (!user.equals(""))
                 {
                     System.out.println("\nEnter password: ");
                     pass = key.nextLine();
-                    if (!pass.equals("") && !pass.equals(null))
+                    if (!pass.equals(""))
                     {
                         try
                         {
