@@ -28,6 +28,11 @@ public class FTP_Client
             {
                 return input;
             }
+            try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
         }
     }
 
