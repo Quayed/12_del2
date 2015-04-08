@@ -21,7 +21,7 @@ public class Zybo_Client
         {
             connected = false;
             System.out.println("\nZybo FTP/TCP-Connecter v0.1");
-            System.out.println("\nPress '1' for FTP\n\nPress '2' for TCP");
+            System.out.println("\nType '1' for FTP:\n\nType '2' for TCP:");
             int type = key.nextInt();
             if (type == 1)
             {
