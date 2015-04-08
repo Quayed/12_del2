@@ -10,13 +10,19 @@ public class FTP_Client
     private Socket socket;
     private BufferedReader in;
     private PrintStream out;
-        Date rawDate = new Date();
-        SimpleDateFormat sdataSocket = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss - ");
-        String date = sdataSocket.format(rawDate);
+    private Date rawDate;
+    private SimpleDateFormat sdataSocket;
+    
+    void FTP_Client()
+    {
+        sdataSocket = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss - ");
+        
+    }
 
     public String send(String in) throws IOException
     {
-        System.out.println(date + "MSG: " + in);
+        rawDate = new Date();
+        System.out.println(sdataSocket.format(rawDate) + "MSG: " + in);
         out.println(in);
         out.flush();
         return getAnswer();
@@ -27,7 +33,8 @@ public class FTP_Client
         while (true)
         {
             String s = in.readLine();
-            System.out.println(date + "MSG: " + s);
+            rawDate = new Date();
+            System.out.println(sdataSocket.format(rawDate) + "MSG: " + s);
             if (s.length() >= 3 && s.charAt(3) != '-' && Character.isDigit(s.charAt(0)) && Character.isDigit(s.charAt(1)) && Character.isDigit(s.charAt(2)))
             {
                 return s;
@@ -53,7 +60,8 @@ public class FTP_Client
         StringTokenizer st = new StringTokenizer(adress, "(,)");
         if (st.countTokens() < 7)
         {
-            throw new IOException("Message recieved does not follow the regular 7-token syntax (MSG.IP.IP.IP.IP.PORT.PORT");
+            rawDate = new Date();
+            throw new IOException(sdataSocket.format(rawDate) + "Message recieved does not follow the regular 7-token syntax (MSG.IP.IP.IP.IP.PORT.PORT");
         }
         // Saving the first five tokens (Message + ip-adress):
         for (int i = 0; i < 5; i++)
@@ -83,7 +91,8 @@ public class FTP_Client
         send(out);
         StringBuilder sb = new StringBuilder();
         String s = dataIn.readLine();
-        sb.append(date + "\n");
+        rawDate = new Date();
+        sb.append(sdataSocket.format(rawDate) + "\n");
         while (s != null)
         {
             System.out.println("data: " + s);
