@@ -62,7 +62,7 @@ public class FTP_Client
         if (st.countTokens() < 7)
         {
             rawDate = new Date();
-            throw new IOException(sdataSocket.format(rawDate) + "Message received does not follow the regular 7-token syntax (MSG.IP.IP.IP.IP.PORT.PORT");
+            throw new IOException(sdataSocket.format(rawDate) + "Message receved does not follow the regular 7-token syntax (MSG.IP.IP.IP.IP.PORT.PORT");
         }
         // Saving the first five tokens (Message + ip-adress):
         for (int i = 0; i < 5; i++)
@@ -91,14 +91,15 @@ public class FTP_Client
         BufferedReader dataIn = new BufferedReader(new InputStreamReader(dataSocket.getInputStream()));
         send(out);
         StringBuilder sb = new StringBuilder();
-        String in = dataIn.readLine();
+        String input = dataIn.readLine();
         rawDate = new Date();
-        sb.append(sdataSocket.format(rawDate) + "\n");
-        while (in != null)
+        sb.append(sdataSocket.format(rawDate)).append("\n");
+        while (input != null)
         {
-            System.out.println("data: " + in);
-            sb.append(in + "\n");
-            in = dataIn.readLine();
+            rawDate = new Date();
+            System.out.println(sdataSocket.format(rawDate) + "data: " + input);
+            sb.append(input).append("\n");
+            input = dataIn.readLine();
         }
         dataIn.close();
         dataSocket.close();
