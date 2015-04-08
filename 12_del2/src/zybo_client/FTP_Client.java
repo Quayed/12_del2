@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 
 public class FTP_Client
 {
-
     private Socket socket;
     private BufferedReader in;
     private PrintStream out;
@@ -33,12 +32,12 @@ public class FTP_Client
     {
         while (true)
         {
-            String s = in.readLine();
+            String input = in.readLine();
             rawDate = new Date();
-            System.out.println(sdataSocket.format(rawDate) + "MSG: " + s);
-            if (s.length() >= 3 && s.charAt(3) != '-' && Character.isDigit(s.charAt(0)) && Character.isDigit(s.charAt(1)) && Character.isDigit(s.charAt(2)))
+            System.out.println(sdataSocket.format(rawDate) + "MSG: " + input);
+            if (input.length() >= 3 && input.charAt(3) != '-' && Character.isDigit(input.charAt(0)) && Character.isDigit(input.charAt(1)) && Character.isDigit(input.charAt(2)))
             {
-                return s;
+                return input;
             }
         }
     }
