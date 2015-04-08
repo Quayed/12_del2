@@ -59,7 +59,7 @@ public class Zybo_Main
                 }
                 while (connected)
                 {
-                    System.out.println("\nType '1' for File-list:\n\nType '2' to retreive file:");
+                    System.out.println("\nType '0' to return to main menu\n\nType '1' to list files:\n\nType '2' to retrieve file:");
                     type = key.nextInt();
                     if (type == 1)
                     {
@@ -69,6 +69,10 @@ public class Zybo_Main
                     {
                         System.out.println(FTP.getMSG("RETR examples.desktop"));
                         
+                    }
+                    else if (type == 0)
+                    {
+                        break;
                     }
                 }
             }
