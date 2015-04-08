@@ -111,7 +111,6 @@ public class Zybo_Main
                             key.nextLine();
                             String name = key.nextLine();
                             System.out.println("\n" + sdataSocket.format(new Date()) + " - " + FTP.send("DELE " + name));
-
                         }
                         else if (type == 0)
                         {
