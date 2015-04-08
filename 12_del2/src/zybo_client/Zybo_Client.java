@@ -10,7 +10,7 @@ public class Zybo_Client
 
     public static void main(String[] args) throws IOException, InterruptedException, ConnectException
     {
-        boolean connected = false;
+        boolean connected;
         Date rawDate;
         SimpleDateFormat sdataSocket = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         java.util.Scanner key = new java.util.Scanner(System.in);
@@ -19,6 +19,7 @@ public class Zybo_Client
         String user;
         while (true)
         {
+            connected = false;
             System.out.println("\nZybo FTP/TCP-Connecter v0.1");
             System.out.println("\nEnter username: ");
             user = key.nextLine();
