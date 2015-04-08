@@ -54,12 +54,13 @@ public class Zybo_Main
                 }
                 if (connected)
                 {
-                    FTP.send("HELP");
-
-                    key.nextLine();
+                    System.out.println("\nType '1' for File-list:\n\nType '2' for :");
+                    type = key.nextInt();
+                    if (type == 1)
+                    {
+                        FTP.getMSG("LIST");
+                    }
                 }
-
-                //FTP.getMSG("LIST");
             }
         }
     }
