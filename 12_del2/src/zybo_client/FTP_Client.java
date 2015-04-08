@@ -7,22 +7,17 @@ import java.text.SimpleDateFormat;
 
 public class FTP_Client
 {
+
     private Socket socket;
     private BufferedReader in;
     private PrintStream out;
     private Date rawDate;
-    private SimpleDateFormat sdataSocket;
-
-    void FTP_Client()
-    {
-        sdataSocket = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss - ");
-
-    }
+    private SimpleDateFormat sdataSocket = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss - ");
 
     public String send(String in) throws IOException
     {
-        rawDate = new Date();
-        System.out.println(sdataSocket.format(rawDate) + "MSG: " + in);
+        //rawDate = new Date();
+        //System.out.println(sdataSocket.format(rawDate) + "MSG: " + in);
         out.println(in);
         out.flush();
         return getAnswer();
@@ -33,8 +28,8 @@ public class FTP_Client
         while (true)
         {
             String input = in.readLine();
-            rawDate = new Date();
-            System.out.println(sdataSocket.format(rawDate) + "MSG: " + input);
+            //rawDate = new Date();
+            //System.out.println(sdataSocket.format(rawDate) + "MSG: " + input);
             if (input.length() >= 3 && input.charAt(3) != '-' && Character.isDigit(input.charAt(0)) && Character.isDigit(input.charAt(1)) && Character.isDigit(input.charAt(2)))
             {
                 return input;
@@ -42,14 +37,18 @@ public class FTP_Client
         }
     }
 
-    public void connect(String ip, String user, String pass) throws IOException, InterruptedException
+    public boolean connect(String ip, String user, String pass) throws IOException, InterruptedException
     {
         socket = new Socket(ip, 21);
         out = new PrintStream(socket.getOutputStream());
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         getAnswer();
         send("USER " + user);
-        send("PASS " + pass);
+        if (send("PASS " + pass).contains("230"))
+        {
+            return true;
+        }
+        return false;
     }
 
     private Socket getData() throws IOException
@@ -91,12 +90,10 @@ public class FTP_Client
         send(out);
         StringBuilder sb = new StringBuilder();
         String input = dataIn.readLine();
-        rawDate = new Date();
-        sb.append(sdataSocket.format(rawDate)).append("\n");
+        //rawDate = new Date();
+        sb.append("\n");
         while (input != null)
         {
-            rawDate = new Date();
-            System.out.println(sdataSocket.format(rawDate) + "data: " + input);
             sb.append(input).append("\n");
             input = dataIn.readLine();
         }

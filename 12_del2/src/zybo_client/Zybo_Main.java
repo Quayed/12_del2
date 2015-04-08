@@ -38,9 +38,15 @@ public class Zybo_Main
                         {
                             rawDate = new Date();
                             System.out.println("\n" + sdataSocket.format(rawDate) + " - Connecting to server...");
-                            FTP.connect("192.168.0.38", user, pass);
-                            pass = null;
-                            user = null;
+
+                            if (FTP.connect("192.168.0.38", user, pass))
+                            {
+                                connected = true;
+                            }
+                            else
+                            {
+                                System.out.println("\nCredentials denied!\n");
+                            }
                         }
                         catch (ConnectException e)
                         {
@@ -49,16 +55,20 @@ public class Zybo_Main
                             System.out.println("\n" + sdataSocket.format(rawDate) + " - Connection timeout!");
                             System.exit(-1);
                         }
-                        connected = true;
                     }
                 }
-                if (connected)
+                while (connected)
                 {
-                    System.out.println("\nType '1' for File-list:\n\nType '2' for :");
+                    System.out.println("\nType '1' for File-list:\n\nType '2' to retreive file:");
                     type = key.nextInt();
                     if (type == 1)
                     {
-                        FTP.getMSG("LIST");
+                        System.out.println("\nFiles: " + FTP.getMSG("LIST"));
+                    }
+                    else if (type == 2)
+                    {
+                        System.out.println(FTP.getMSG("RETR examples.desktop"));
+                        
                     }
                 }
             }
