@@ -1,5 +1,6 @@
 package zybo_client;
 
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -44,7 +45,7 @@ public class Zybo_Main
                             {
                                 System.out.println("\n" + sdataSocket.format(new Date()) + " - Connecting to server...");
 
-                                if (FTP.connect("192.168.0.38", "xilinx", "ftp"))
+                                if (FTP.connect(ip, user, pass))
                                 {
                                     connected = true;
                                 }
@@ -74,22 +75,30 @@ public class Zybo_Main
                             }
                             else
                             {
-                                System.out.println("\nNo files on Zybo.");
-                            }                 
+                                System.out.println("\nNo files on Zybo!");
+                            }
                         }
                         else if (type == 2)
-                        {                            
+                        {
                             System.out.println("\nEnter filename:\n");
                             key.nextLine();
                             String name = key.nextLine();
                             String answer = FTP.getData("RETR " + name);
                             if (!answer.equals("File not found"))
                             {
-                                FileWriter file = new FileWriter(name);
-                                PrintWriter out = new PrintWriter(file);
-                                out.write(answer);
-                                out.close();
-                                System.out.println("\n" + sdataSocket.format(new Date()) + " - (" + name + ") has been downloaded succesfully!");
+                                try
+                                {
+                                    FileWriter file = new FileWriter(name);
+                                    PrintWriter out = new PrintWriter(file);
+                                    out.write(answer);
+                                    out.close();
+                                    System.out.println("\n" + sdataSocket.format(new Date()) + " - (" + name + ") has been downloaded succesfully!");
+                                }
+                                catch (FileNotFoundException e)
+                                {
+                                    //e.printStackTrace();
+                                    System.out.println("\n" + sdataSocket.format(new Date()) + " - File not writable on local disk!");
+                                }
                             }
                             else
                             {
