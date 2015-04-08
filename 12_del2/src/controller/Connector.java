@@ -65,13 +65,15 @@ public class Connector extends Thread {
 	}
 
 	public String getData() {
-	//	dataBuffer.clear();
-		while(dataBuffer.isEmpty());
+		while(dataBuffer.isEmpty()){
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		
-		String data = "null";
-			data = dataBuffer.poll();
-
-		return data;
+		return dataBuffer.poll();
 	}
 
 	public void readMessage(String msg) {

@@ -107,9 +107,11 @@ public class Controller {
 		while(true){
 			do {
 				if(isNotANumber){
-					connector.readMessage("Ikke en int, indtast raavare nr.");
+					// Ikke en int,  husk det er max 24 karakterer
+					connector.readMessage("Indtast raavare nr.");
 				} else if(notCorrect){
-					connector.readMessage("Raavare findes ik, indtast raavare nr.");
+					// Ingen raavare, husk det er max 24 karakterer
+					connector.readMessage("Indtast raavare nr.");
 				} else{
 					connector.readMessage("Indtast raavare nr.");
 				}
@@ -158,7 +160,7 @@ public class Controller {
 				
 			} while(isNotANumber || notCorrect);
 			
-			connector.readMessage("Er " + productName + " rigtigt? 1/0");
+			connector.readMessage(productName + "? 1/0");
 			System.out.println(connector.getData());
 			String gottenData = connector.getData();
 			System.out.println(gottenData);
