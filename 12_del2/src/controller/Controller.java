@@ -7,26 +7,41 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import logic.ILogic;
-import entity.IData;
 
 public class Controller {
 
 	private static final String DEFAULT_HOST = "localhost";
 	private static final int DEFAULT_PORT = 8000;
 	
-	private int currentOperator;
-	private ILogic logic;
-	private IData data;
+	private final String host;
+	private final int port;
+
 	private Connector connector;
+	
+	private int currentOperator;
 	private int productId;
 	private String productName;
-	public Controller(ILogic logic, IData data) {
-		this.logic = logic;
-		this.data = data;
-		this.connector = new Connector(data);
+	
+	public Controller() {
+		this(DEFAULT_HOST, DEFAULT_PORT);
+	}
+	
+	public Controller(String host) {
+		this(host, DEFAULT_PORT);
+	}
+
+	public Controller(int port) {
+		this(DEFAULT_HOST, port);
+	}
+	
+	public Controller(String host, int port) {
+		this.host = host;
+		this.port = port;
+		
+		this.connector = new Connector();
 
 		// asks for connecting to server on startup
-		connect(logic);
+		connect();
 		
 		start();
 	}
@@ -41,13 +56,13 @@ public class Controller {
 	}
 
 	// once called, this method will ask the user to connect by specifying a relevant address until a connection has been made
-	private void connect(ILogic logic) {
+	private void connect() {
 		boolean connectionError;
 
 		do {
 			connectionError = false;
 			try {
-				connector.connect(DEFAULT_HOST, DEFAULT_PORT);
+				connector.connect(host, port);
 			} catch (UnknownHostException e) {
 				connectionError = true;
 				

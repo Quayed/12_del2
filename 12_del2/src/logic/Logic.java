@@ -4,15 +4,12 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import controller.Connector;
-import entity.IData;
 
 public class Logic implements ILogic {
 	private Connector connector;
-	IData data;
 
-	public Logic(IData data) {
-		this.data = data;
-		connector = new Connector(data);
+	public Logic() {
+		connector = new Connector();
 	}
 
 	@Override
@@ -56,7 +53,7 @@ public class Logic implements ILogic {
 
 	@Override
 	public boolean isConnected() {
-		return data.isConnected();
+		return connector.isConnected();
 	}
 
 }

@@ -7,12 +7,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayDeque;
-import java.util.LinkedList;
 import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-
-import entity.IData;
 
 public class Connector extends Thread {
 
@@ -21,9 +16,6 @@ public class Connector extends Thread {
 	private Socket clientSocket;
 	private boolean connected;
 	private Queue<String> dataBuffer = new ArrayDeque<String>();
-
-	public Connector(IData data) {
-	}
 
 	// this thread continuously reads server inputs on the sockets and stores them in a data stack to be handled later
 	@Override
@@ -84,6 +76,10 @@ public class Connector extends Thread {
 
 	public void readMessage(String msg) {
 		sendMessage("RM20 8 \""+msg+"\" \"\" \"&3\"");
+	}
+
+	public boolean isConnected() {
+		return connected;
 	}
 
 }
