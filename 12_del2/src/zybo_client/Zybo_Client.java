@@ -15,42 +15,45 @@ public class Zybo_Client
         SimpleDateFormat sdataSocket = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         java.util.Scanner key = new java.util.Scanner(System.in);
         FTP_Client FTP = new FTP_Client();
-        System.out.println("Zybo FTP/TCP-Connecter v0.1");
-        System.out.println("\nEnter username: ");
         String pass;
-        String user = key.nextLine();
-        if (!user.equals("") && !user.equals(null))
+        String user;
+        while (true)
         {
-            System.out.println("\nEnter password: ");
-            pass = key.nextLine();
-            if (!pass.equals("") && !pass.equals(null))
+            System.out.println("\nZybo FTP/TCP-Connecter v0.1");
+            System.out.println("\nEnter username: ");
+            user = key.nextLine();
+            if (!user.equals("") && !user.equals(null))
             {
-                try
+                System.out.println("\nEnter password: ");
+                pass = key.nextLine();
+                if (!pass.equals("") && !pass.equals(null))
                 {
-                    rawDate = new Date();
-                    System.out.println("\n" + sdataSocket.format(rawDate) + " - Connecting to server...");
-                    FTP.connect("192.168.0.38", user, pass);
-                    pass = null;
-                    user = null;
+                    try
+                    {
+                        rawDate = new Date();
+                        System.out.println("\n" + sdataSocket.format(rawDate) + " - Connecting to server...");
+                        FTP.connect("192.168.0.38", user, pass);
+                        pass = null;
+                        user = null;
+                    }
+                    catch (ConnectException e)
+                    {
+                        //e.printStackTrace();
+                        rawDate = new Date();
+                        System.out.println("\n" + sdataSocket.format(rawDate) + " - Connection timeout!");
+                        System.exit(-1);
+                    }
+                    connected = true;
                 }
-                catch (ConnectException e)
-                {
-                    //e.printStackTrace();
-                    rawDate = new Date();
-                    System.out.println("\n" + sdataSocket.format(rawDate) + " - Connection timeout!");
-                    System.exit(-1);
-                }
-                connected = true;
             }
-        }
-        if (connected)
-        {
-            FTP.send("HELP");
-            
-            key.nextLine();
-        }
+            if (connected)
+            {
+                FTP.send("HELP");
 
-        //FTP.getMSG("LIST");
+                key.nextLine();
+            }
+
+            //FTP.getMSG("LIST");
+        }
     }
-
 }
