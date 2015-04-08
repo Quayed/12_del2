@@ -31,6 +31,9 @@ public class Main {
 				new Controller(args[0]);
 			}
 		}
+		else{
+			new Controller();
+		}
 		System.exit(0);
 	}
 
