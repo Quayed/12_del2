@@ -48,7 +48,9 @@ public class Controller {
 
 	private void start() throws IOException{
 		connector.sendData("S");
-		connector.getData();
+		System.out.println(connector.getData());
+		
+		connector.displayText("hej");
 
 		getOperatorId();
 		getProduct();
@@ -62,11 +64,12 @@ public class Controller {
 			if(isNotANumber){
 				connector.rm20("Ikke en int, indtast nr.");
 			} else{
-				connector.rm20("Indtast nr.");
+				connector.rm20("Indtast nr");
 			}
 			try{
 				
 				String gottenData = connector.getRM20();
+				
 				operator = Integer.parseInt(gottenData);
 				
 				System.out.println(operator);
@@ -136,17 +139,20 @@ public class Controller {
 		connector.getRM20().equals("1");	// verificer kald
 				
 		double tare = connector.tare();
+		System.out.println("tare: "+tare);
 		
 		connector.rm20("Læg 1.5 kg på");
 		connector.getRM20().equals("1");	// verificer kald
 				
 		double netto = connector.read();
+		System.out.println("netto: "+netto);
 
 		connector.rm20("Fjern");
 		connector.getRM20().equals("1");	// verificer kald
 				
 		double tare2 = connector.tare();
-	
+		System.out.println("tare: "+tare2);
+
 		// Registrerer minus brutto (inden for en variation på ??)
 		
 		

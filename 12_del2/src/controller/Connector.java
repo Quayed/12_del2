@@ -24,8 +24,9 @@ public class Connector extends SocketHandler{
 	}
 
 	public String getRM20() throws IOException {
-		getData();
+		System.out.println(getData());
 		String msg = getData();
+		System.out.println(msg);
 		return msg.substring(8, msg.length()-1);
 	}
 	
@@ -58,6 +59,7 @@ public class Connector extends SocketHandler{
 
 	public void displayText(String msg) throws IOException {
 		sendData("D " + msg);
+		getData();
 	}
 
 	public void displayWeight() throws IOException {
