@@ -1,14 +1,10 @@
 package controller;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
 import entity.Data;
 import entity.IData;
-import logic.ILogic;
 
 public class Controller {
 
@@ -16,9 +12,6 @@ public class Controller {
 	
 	private static final String DEFAULT_HOST = "localhost";
 	private static final int DEFAULT_PORT = 8000;
-	
-	private final String host;
-	private final int port;
 
 	private Connector connector;
 	
@@ -39,45 +32,30 @@ public class Controller {
 	}
 	
 	public Controller(String host, int port) {
-		this.host = host;
-		this.port = port;
-		
-		this.connector = new Connector();
-
-		// asks for connecting to server on startup
-		connect();
-		
-		start();
-	}
-	
-	// once called, this method will ask the user to connect by specifying a relevant address until a connection has been made
-	private void connect() {
-		boolean connectionError;
-
-		do {
-			connectionError = false;
-			try {
-				connector.connect(host, port);
-			} catch (UnknownHostException e) {
-				connectionError = true;
-				
-			} catch (IOException e) {
-				connectionError = true;;
-			}
-		} while (connectionError);
+		try {
+			
+			this.connector = new Connector(host, port);
+			
+			start();
+			
+		} catch (UnknownHostException e) {
+			System.out.println("Server Error");
+			
+		} catch (IOException e) {
+			System.out.println("Server Error");
+		}
 	}
 
-	private void start(){
-		connector.sendMessage("S");
+	private void start() throws IOException{
+		connector.sendData("S");
 		connector.getData();
+		
 		getOperatorId();
 		getProduct();
 		weight();
 	}
 
-
-
-	private void getOperatorId(){
+	private void getOperatorId() throws IOException{
 		boolean isNotANumber = false;
 		int operator = 0;
 		do {
@@ -105,7 +83,7 @@ public class Controller {
 		// Operator skal måske verificeres (ID slås op)
 	}
 	
-	private String[] getProduct(){
+	private String[] getProduct() throws IOException{
 		boolean isNotANumber = false;
 		boolean notCorrect = false;
 		int productId = 0;
@@ -156,11 +134,11 @@ public class Controller {
 		}
 	}
 	
-	private void weight(){
+	private void weight() throws IOException{
 		connector.rm20("Placer skål");
 		connector.getData();
 		connector.getData().equals("1");	// verificer kald
-		connector.sendMessage("T");
+		connector.sendData("T");
 		
 		String tare = connector.getData();
 		
@@ -168,7 +146,7 @@ public class Controller {
 		connector.getData();
 		connector.getData().equals("1");	// verificer kald
 		
-		connector.sendMessage("S");
+		connector.sendData("S");
 		
 		String netto = connector.getData();
 
@@ -176,7 +154,7 @@ public class Controller {
 		connector.getData();
 		connector.getData().equals("1");	// verificer kald
 		
-		connector.sendMessage("T");
+		connector.sendData("T");
 		
 		String tare2 = connector.getData();
 	

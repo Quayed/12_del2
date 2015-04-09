@@ -11,6 +11,7 @@ public class TCP_Server
 
     public static void main(String argv[]) throws Exception
     {
+        Sensors sensor = new Sensors();
         String clientSentence;
         String capitalizedSentence;
         ServerSocket welcomeSocket = new ServerSocket(8001);
@@ -23,10 +24,25 @@ public class TCP_Server
             DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
             clientSentence = inFromClient.readLine();
             System.out.println("Received: " + clientSentence);
+            
             if (clientSentence.contains("INCR"))
-            {
-                sensors.increase()
+                {
+                int sensorNumber = (clientSentence.charAt(5)-'0');  // Get the sensorNumber
+                sensor.increase(sensorNumber);
             }
+            
+            if (clientSentence.contains("DECR"))
+                {
+                int sensorNumber = (clientSentence.charAt(5)-'0');  // Get the sensorNumber
+                sensor.decrease(sensorNumber);
+            }
+            
+            if (clientSentence.contains("STOP"))
+                {
+                int sensorNumber = (clientSentence.charAt(5)-'0');  // Get the sensorNumber
+                sensor.stop(sensorNumber);
+            }
+            
             capitalizedSentence = clientSentence.toUpperCase() + '\n';
             outToClient.writeBytes(capitalizedSentence);
         }
