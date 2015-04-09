@@ -7,20 +7,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sensors
-{
-
+public class Sensors    {
     List<String> sensorNames = new ArrayList<>();
     List<Integer> sensorRates = new ArrayList<>();
     List<Integer> sensorValues = new ArrayList<>();
 
-    public Sensors() throws FileNotFoundException, IOException
-    {
+    public Sensors() throws FileNotFoundException, IOException    {
         FileReader fil = new FileReader("Sensors.txt");
         BufferedReader ind = new BufferedReader(fil);
         String linje = ind.readLine();
-        while (linje != null)
-        {
+        while (linje != null)   {
             String[] bidder = linje.split("_");
             String sensorName = bidder[0];
             int sensorRate = Integer.parseInt(bidder[1]);
@@ -30,8 +26,7 @@ public class Sensors
         }
     }
 
-    private void addSensor(String sensorName, int sensorRate, int sensorValue)
-    {
+    private void addSensor(String sensorName, int sensorRate, int sensorValue)  {
         sensorNames.add(sensorName);
         sensorRates.add(sensorRate);
         sensorValues.add(sensorValue);
@@ -50,8 +45,7 @@ public class Sensors
         }
     }
 
-    public void decrease(int sensorNumber)
-    {
+    public void decrease(int sensorNumber)  {
         if (sensorNames.size() >= sensorNumber-1)   {
             if(sensorRates.get(sensorNumber-1) > 1)   {
                sensorRates.set(sensorNumber-1, (sensorRates.get(sensorNumber-1)/2));
@@ -63,8 +57,7 @@ public class Sensors
         }
     }
 
-    public void stop(int sensorNumber)
-    {
+    public void stop(int sensorNumber)  {
        if (sensorNames.size() >= sensorNumber-1)   {
             if(sensorRates.get(sensorNumber-1) != 129)   {
                sensorRates.set(sensorNumber-1,129);
@@ -76,8 +69,7 @@ public class Sensors
         }
     }
 
-    public void start(int sensorNumber)
-    {
+    public void start(int sensorNumber) {
         if (sensorNames.size() >= sensorNumber-1)   {
             if(sensorRates.get(sensorNumber-1) == 129)   {
                sensorRates.set(sensorNumber-1,8);
@@ -88,5 +80,4 @@ public class Sensors
             System.out.println("Unsuccessful, no sensor with that value. Try to print list of sensors.");
         }
     }
-
 }
