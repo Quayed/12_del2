@@ -119,6 +119,12 @@ public class Zybo_Main
                     }
                 }
             }
+            else if (type == 2)
+            {
+                TCP_Client tcp = new TCP_Client();
+                tcp.send();
+                
+            }
         }
     }
 }
