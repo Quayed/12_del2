@@ -55,8 +55,7 @@ public class TCP_Server {
 
 				else if (clientSentence.contains("STAR")) {
 					int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
-					capitalizedSentence = sensor.start(sensorNumber).toUpperCase();
-					socketHandler.println(capitalizedSentence);
+					socketHandler.println(sensor.start(sensorNumber));
 				} else 
 					unknownCommand();
 				
