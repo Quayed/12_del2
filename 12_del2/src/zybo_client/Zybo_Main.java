@@ -64,7 +64,7 @@ public class Zybo_Main
                     }
                     while (connected)
                     {
-                        System.out.println("\nType '0' to return to main menu\n\nType '1' to list files:\n\nType '2' to retrieve file:\n\nType '3' to delete file:");
+                        System.out.println("Type '0' to return to main menu\n\nType '1' to list files:\n\nType '2' to retrieve file:\n\nType '3' to delete file:");
                         type = key.nextInt();
                         if (type == 1)
                         {
@@ -125,7 +125,7 @@ public class Zybo_Main
                 key.nextLine();
                 while (true)
                 {
-                    System.out.println("\nEnter command: (break with '0')\n");
+                    System.out.println("Enter command: (break with '0')");
                     String cmd = key.nextLine();
                     if (cmd.equals("0"))
                     {

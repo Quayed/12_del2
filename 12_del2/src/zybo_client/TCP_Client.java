@@ -1,31 +1,32 @@
 package zybo_client;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.Socket;
 
-public class TCP_Client
-{
-    private String modifiedSentence;
-    private Socket clientSocket;
-    private DataOutputStream outToServer;
-    private BufferedReader inFromServer;
+import controller.SocketHandler;
 
-    public void TCP_Client() throws IOException
-    {
-        
-    }
+public class TCP_Client {
 
-    public void send(String output) throws IOException
-    {
-        clientSocket = new Socket("2.108.207.65", 8001);
-        outToServer = new DataOutputStream(clientSocket.getOutputStream());
-        inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        outToServer.writeBytes(output + '\n');
-        modifiedSentence = inFromServer.readLine();
-        System.out.println("FROM SERVER: " + modifiedSentence);
-        clientSocket.close();
-    }
+	private String modifiedSentence;
+	private SocketHandler socketHandler;
+
+	public TCP_Client() throws IOException {
+		socketHandler = new SocketHandler("localhost", 8001);
+	}
+
+	public void send(String output) throws IOException {
+		socketHandler.println(output);
+		modifiedSentence = socketHandler.readLine();
+		System.out.println("FROM SERVER: " + modifiedSentence);
+
+/*
+		clientSocket = new Socket("2.108.207.65", 8001);
+		outToServer = new DataOutputStream(clientSocket.getOutputStream());
+		inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		outToServer.writeBytes(output + '\n');
+		modifiedSentence = inFromServer.readLine();
+		System.out.println("FROM SERVER: " + modifiedSentence);
+		clientSocket.close();
+*/
+		
+	}
 }

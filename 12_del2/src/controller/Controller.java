@@ -47,8 +47,8 @@ public class Controller {
 	}
 
 	private void start() throws IOException{
-		connector.sendData("S");
-		System.out.println(connector.getData());
+		connector.println("S");
+		System.out.println(connector.readLine());
 		
 		connector.displayText("hej");
 

@@ -14,25 +14,20 @@ public class Connector extends SocketHandler{
 		super(socket);
 	}
 
-	@Override
-	public void sendData(String msg) throws IOException {
-		super.sendData(msg + "\r\n");
-	}
-
 	public void rm20(String msg) throws IOException {
-		sendData("RM20 8 \""+msg+"\" \"\" \"&3\"");
+		println("RM20 8 \""+msg+"\" \"\" \"&3\"");
 	}
 
 	public String getRM20() throws IOException {
-		System.out.println(getData());
-		String msg = getData();
+		System.out.println(readLine());
+		String msg = readLine();
 		System.out.println(msg);
 		return msg.substring(8, msg.length()-1);
 	}
 	
 	public double read() throws IOException {
-		sendData("S");
-		String msg = getData();
+		println("S");
+		String msg = readLine();
 		if(msg.substring(8, 9).equals("-")){
 			return -Double.parseDouble(msg.substring(9, msg.length()-3));
 		}
@@ -42,8 +37,8 @@ public class Connector extends SocketHandler{
 	}
 
 	public double tare() throws IOException {
-		sendData("T");
-		String msg = getData();
+		println("T");
+		String msg = readLine();
 		System.out.println(msg);
 		if(msg.substring(8, 9).equals("-")){
 			return -Double.parseDouble(msg.substring(9, msg.length()-3));
@@ -54,16 +49,16 @@ public class Connector extends SocketHandler{
 	}
 
 	public void zero() throws IOException {
-		sendData("Z");
+		println("Z");
 	}
 
 	public void displayText(String msg) throws IOException {
-		sendData("D " + msg);
-		getData();
+		println("D " + msg);
+		readLine();
 	}
 
 	public void displayWeight() throws IOException {
-		sendData("DW");
+		println("DW");
 	}
 
 	
