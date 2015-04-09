@@ -38,52 +38,68 @@ public class Sensors
         System.out.println("Added " + sensorName + " with update every " + sensorRate + " seconds.");
     }
 
-    public void increase(int sensorNumber)
+    public String increase(int sensorNumber)
     {
         if (sensorNames.size() >= sensorNumber - 1)
         {
             if (sensorRates.get(sensorNumber - 1) <= 64)
             {
                 sensorRates.set(sensorNumber - 1, (2 * sensorRates.get(sensorNumber - 1)));
-                System.out.println("Successfull, Sensor " + sensorNumber + " now has an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds");
+                String answer = "Successful, Sensor " + sensorNumber + " now has an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds";
+                System.out.println(answer);
+                return answer;
             }
         }
         else
         {
-            System.out.println("Unsuccessfull, no sensor with that value. Try to print list of sensors.");
+            String answer = "Unsuccessful, no sensor with that value. Try to print list of sensors.";
+            System.out.println(answer);
+            return answer;
         }
+        return null;
     }
 
-    public void decrease(int sensorNumber)
+    public String decrease(int sensorNumber)
     {
         if (sensorNames.size() >= sensorNumber - 1)
         {
             if (sensorRates.get(sensorNumber - 1) > 1)
             {
                 sensorRates.set(sensorNumber - 1, (sensorRates.get(sensorNumber - 1) / 2));
-                System.out.println("Successfull, Sensor " + sensorNumber + " now has an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds");
+                String answer = "Successful, Sensor " + sensorNumber + " now has an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds";
+                System.out.println(answer);
+                return answer;
             }
         }
         else
         {
-            System.out.println("Unsuccessfull, no sensor with that value. Try to print list of sensors.");
+            String answer = "Unsuccessful, no sensor with that value. Try to print list of sensors.";
+            System.out.println(answer);
+            return answer;
         }
+        return null;
     }
 
-    public void stop(int sensorNumber)
+    public String stop(int sensorNumber)
     {
         if (sensorNames.size() >= sensorNumber - 1)
         {
             if (sensorRates.get(sensorNumber - 1) != 129)
             {
                 sensorRates.set(sensorNumber - 1, 129);
-                System.out.println("Successful, Sensor " + sensorNumber + " has been stopped");
+                String answer = "Successful, Sensor " + sensorNumber + " has been stopped";
+                System.out.println(answer);
+                return answer;
             }
         }
         else
         {
-            System.out.println("Unsuccessfull, no sensor with that value. Try to print list of sensors.");
+            String answer = "Unsuccessful, no sensor with that value. Try to print list of sensors.";
+            System.out.println(answer);
+            return answer;
         }
+        return null;
+        
     }
 
     public String start(int sensorNumber)
@@ -93,7 +109,7 @@ public class Sensors
             if (sensorRates.get(sensorNumber - 1) == 129)
             {
                 sensorRates.set(sensorNumber - 1, 8);
-                String answer = "Successfull, Sensor " + sensorNumber + " now has an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds";
+                String answer = "Successful, Sensor " + sensorNumber + " now has an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds";
                 System.out.println(answer);
                 return answer;
             }

@@ -32,31 +32,24 @@ public class TCP_Server {
 			System.out.println("Received: " + clientSentence);
 
 			if(clientSentence.length() == 6){
-				if (clientSentence.startsWith("INCR ")) {
+				if (clientSentence.startsWith("INCR")) {
 					int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
-					sensor.increase(sensorNumber);
-					// returns the same command
-					socketHandler.println(clientSentence);
+					socketHandler.println(sensor.increase(sensorNumber));
 				}
 
 				else if (clientSentence.contains("DECR")) {
 					int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
-					sensor.decrease(sensorNumber);
-					// returns the same command
-					socketHandler.println(clientSentence);
+					socketHandler.println(sensor.decrease(sensorNumber));
 				}
 
 				else if (clientSentence.contains("STOP")) {
 					int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
-					sensor.stop(sensorNumber);
-					// returns the same command
-					socketHandler.println(clientSentence);
+					socketHandler.println(sensor.stop(sensorNumber));
 				}
 
 				else if (clientSentence.contains("STAR")) {
 					int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
-					capitalizedSentence = sensor.start(sensorNumber).toUpperCase();
-					socketHandler.println(capitalizedSentence);
+					socketHandler.println(sensor.start(sensorNumber));
 				} else 
 					unknownCommand();
 				
