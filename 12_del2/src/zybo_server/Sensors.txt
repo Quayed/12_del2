@@ -1,5 +1,0 @@
-Sensor 1_2_2
-Sensor 2_15_4
-Sensor 3_42_6
-Sensor 4_80_8
-Sensor 5_101_10

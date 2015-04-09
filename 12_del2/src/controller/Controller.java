@@ -49,7 +49,7 @@ public class Controller {
 	private void start() throws IOException{
 		connector.sendData("S");
 		connector.getData();
-		
+
 		getOperatorId();
 		getProduct();
 		weight();
@@ -65,10 +65,9 @@ public class Controller {
 				connector.rm20("Indtast nr.");
 			}
 			try{
-				System.out.println(connector.getData());
-				String gottenData = connector.getData();
 				
-				operator = Integer.parseInt(gottenData.substring(8, gottenData.length()-1));
+				String gottenData = connector.getRM20();
+				operator = Integer.parseInt(gottenData);
 				
 				System.out.println(operator);
 				
@@ -83,7 +82,7 @@ public class Controller {
 		// Operator skal måske verificeres (ID slås op)
 	}
 	
-	private String[] getProduct() throws IOException{
+	private void getProduct() throws IOException{
 		boolean isNotANumber = false;
 		boolean notCorrect = false;
 		int productId = 0;
@@ -100,9 +99,8 @@ public class Controller {
 					connector.rm20("Indtast raavare nr.");
 				}
 				try{
-					System.out.println(connector.getData());
-					String gottenData = connector.getData();
-					productId = Integer.parseInt(gottenData.substring(8, gottenData.length()-1));
+					String gottenData = connector.getRM20();
+					productId = Integer.parseInt(gottenData);
 					System.out.println(productId);
 					isNotANumber = false;
 				} catch (NumberFormatException e){
@@ -122,41 +120,32 @@ public class Controller {
 			} while(isNotANumber || notCorrect);
 			
 			connector.rm20(productName + "? 1/0");
-			System.out.println(connector.getData());
-			String gottenData = connector.getData();
+
+			String gottenData = connector.getRM20();
+			
 			System.out.println(gottenData);
-			if(gottenData.substring(8, gottenData.length()-1).equals("1")){
-				String[] productArray = {String.valueOf(productId), productName};
+			if(gottenData.equals("1")){
 				this.productId = productId;
 				this.productName = productName;
-				return productArray;
 			} 
 		}
 	}
 	
 	private void weight() throws IOException{
 		connector.rm20("Placer skål");
-		connector.getData();
-		connector.getData().equals("1");	// verificer kald
-		connector.sendData("T");
-		
-		String tare = connector.getData();
+		connector.getRM20().equals("1");	// verificer kald
+				
+		double tare = connector.tare();
 		
 		connector.rm20("Læg 1.5 kg på");
-		connector.getData();
-		connector.getData().equals("1");	// verificer kald
-		
-		connector.sendData("S");
-		
-		String netto = connector.getData();
+		connector.getRM20().equals("1");	// verificer kald
+				
+		double netto = connector.read();
 
 		connector.rm20("Fjern");
-		connector.getData();
-		connector.getData().equals("1");	// verificer kald
-		
-		connector.sendData("T");
-		
-		String tare2 = connector.getData();
+		connector.getRM20().equals("1");	// verificer kald
+				
+		double tare2 = connector.tare();
 	
 		// Registrerer minus brutto (inden for en variation på ??)
 		
