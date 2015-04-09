@@ -122,4 +122,15 @@ public class Sensors
         }
         return null;
     }
+    
+    public String list()
+    {
+        String answer = sensorNames.toString();
+        System.out.println(answer);
+        return answer;
+    }
+    
+    
+    
+    
 }

@@ -50,7 +50,12 @@ public class TCP_Server {
 				else if (clientSentence.contains("STAR")) {
 					int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
 					socketHandler.println(sensor.start(sensorNumber));
-				} else 
+				} 
+                                
+                                else if (clientSentence.contains("LIST")) {
+                                    socketHandler.println(sensor.list());
+				} 
+                                else 
 					unknownCommand();
 				
 			} else 
@@ -60,11 +65,9 @@ public class TCP_Server {
 	}
 	
 	private void unknownCommand() throws IOException {
-		String capitalizedSentence;
 		String answer = "Unknown command!";
 		System.out.println(answer);
-		capitalizedSentence = answer.toUpperCase();
-		socketHandler.println(capitalizedSentence);
+		socketHandler.println(answer);
 	}
 	
 	public static void main(String argv[]) throws Exception {
