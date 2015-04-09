@@ -24,34 +24,39 @@ public class TCP_Server
             DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
             clientSentence = inFromClient.readLine();
             System.out.println("Received: " + clientSentence);
-            
+
             if (clientSentence.contains("INCR"))
-                {
-                int sensorNumber = (clientSentence.charAt(5)-'0');  // Get the sensorNumber
+            {
+                int sensorNumber = (clientSentence.charAt(5) - '0');  // Get the sensorNumber
                 sensor.increase(sensorNumber);
             }
-            
+
             else if (clientSentence.contains("DECR"))
-                {
-                int sensorNumber = (clientSentence.charAt(5)-'0');  // Get the sensorNumber
+            {
+                int sensorNumber = (clientSentence.charAt(5) - '0');  // Get the sensorNumber
                 sensor.decrease(sensorNumber);
             }
-            
+
             else if (clientSentence.contains("STOP"))
-                {
-                int sensorNumber = (clientSentence.charAt(5)-'0');  // Get the sensorNumber
+            {
+                int sensorNumber = (clientSentence.charAt(5) - '0');  // Get the sensorNumber
                 sensor.stop(sensorNumber);
             }
-            
+
             else if (clientSentence.contains("STAR"))
-                {
-                int sensorNumber = (clientSentence.charAt(5)-'0');  // Get the sensorNumber
+            {
+                int sensorNumber = (clientSentence.charAt(5) - '0');  // Get the sensorNumber
                 capitalizedSentence = sensor.start(sensorNumber).toUpperCase() + '\n';
                 outToClient.writeBytes(capitalizedSentence);
             }
-            
-            capitalizedSentence = clientSentence.toUpperCase() + '\n';
-            outToClient.writeBytes(capitalizedSentence);
+            else
+            {
+                String answer = "Unknown command!";
+                System.out.println(answer);
+                capitalizedSentence = answer.toUpperCase() + '\n';
+                outToClient.writeBytes(capitalizedSentence);
+            }
+
         }
     }
 }
