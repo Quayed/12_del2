@@ -122,10 +122,10 @@ public class Zybo_Main
             else if (type == 2)
             {
                 TCP_Client tcp = new TCP_Client();
+                key.nextLine();
                 while (true)
                 {
                     System.out.println("\nEnter command: (break with '0')\n");
-                    key.nextLine();
                     String cmd = key.nextLine();
                     if (cmd.equals("0"))
                     {
