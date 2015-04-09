@@ -42,7 +42,7 @@ public class Sensors
         if (sensorNames.size() >= sensorNumber-1)   {
             if(sensorRates.get(sensorNumber-1) <= 64)   {
                sensorRates.set(sensorNumber-1, (2*sensorRates.get(sensorNumber-1)));
-               System.out.println("Successful, Sensor "+ sensorNumber+ " now has an update Rate of"+sensorRates.get(sensorNumber-1)+" Seconds");
+               System.out.println("Successful, Sensor "+ sensorNumber+ " now has an update rate of"+sensorRates.get(sensorNumber-1)+" Seconds");
             }
          }
         else    {
@@ -55,7 +55,7 @@ public class Sensors
         if (sensorNames.size() >= sensorNumber-1)   {
             if(sensorRates.get(sensorNumber-1) > 1)   {
                sensorRates.set(sensorNumber-1, (sensorRates.get(sensorNumber-1)/2));
-               System.out.println("Successful, Sensor "+ sensorNumber+ " now has an update Rate of"+sensorRates.get(sensorNumber-1)+" Seconds");
+               System.out.println("Successful, Sensor "+ sensorNumber+ " now has an update rate of"+sensorRates.get(sensorNumber-1)+" Seconds");
             }
          }
         else    {
@@ -65,14 +65,28 @@ public class Sensors
 
     public void stop(int sensorNumber)
     {
-        // Check for <sensorNumber> available
-        // Stop measurement on <sensorNumber>
+       if (sensorNames.size() >= sensorNumber-1)   {
+            if(sensorRates.get(sensorNumber-1) != 129)   {
+               sensorRates.set(sensorNumber-1,129);
+               System.out.println("Successful, Sensor "+ sensorNumber+ " has been stopped");
+            }
+         }
+        else    {
+            System.out.println("Unsuccessful, no sensor with that value. Try to print list of sensors.");
+        }
     }
 
     public void start(int sensorNumber)
     {
-        // Check for <sensorNumber> available
-        // Start measurement on <sensorNumber>
+        if (sensorNames.size() >= sensorNumber-1)   {
+            if(sensorRates.get(sensorNumber-1) == 129)   {
+               sensorRates.set(sensorNumber-1,8);
+               System.out.println("Successful, Sensor "+ sensorNumber+ " now has an update rate of"+sensorRates.get(sensorNumber-1)+" Seconds");
+            }
+         }
+        else    {
+            System.out.println("Unsuccessful, no sensor with that value. Try to print list of sensors.");
+        }
     }
 
 }
