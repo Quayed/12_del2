@@ -31,22 +31,23 @@ public class TCP_Server
                 sensor.increase(sensorNumber);
             }
             
-            if (clientSentence.contains("DECR"))
+            else if (clientSentence.contains("DECR"))
                 {
                 int sensorNumber = (clientSentence.charAt(5)-'0');  // Get the sensorNumber
                 sensor.decrease(sensorNumber);
             }
             
-            if (clientSentence.contains("STOP"))
+            else if (clientSentence.contains("STOP"))
                 {
                 int sensorNumber = (clientSentence.charAt(5)-'0');  // Get the sensorNumber
                 sensor.stop(sensorNumber);
             }
             
-            if (clientSentence.contains("STAR"))
+            else if (clientSentence.contains("STAR"))
                 {
                 int sensorNumber = (clientSentence.charAt(5)-'0');  // Get the sensorNumber
-                sensor.start(sensorNumber);
+                capitalizedSentence = sensor.start(sensorNumber).toUpperCase() + '\n';
+                outToClient.writeBytes(capitalizedSentence);
             }
             
             capitalizedSentence = clientSentence.toUpperCase() + '\n';
