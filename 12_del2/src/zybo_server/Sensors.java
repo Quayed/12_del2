@@ -1,10 +1,30 @@
 package zybo_server;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Sensors
 {
 
-    public Sensors()
+    public Sensors() throws FileNotFoundException, IOException
     {
+        FileReader fil = new FileReader("Sensors.txt");
+        BufferedReader ind = new BufferedReader(fil);
+        String linje = ind.readLine();
+        while (linje != null)
+        {
+            String[] bidder = linje.split("-");
+            int sensorRate = Integer.parseInt(bidder[1]);
+            String sensorName = bidder[0];
+            addSensor(sensorName,sensorRate);
+            linje = ind.readLine();
+        }
+    }
+    
+    private void addSensor(String SensorName, int sensorRate){
+    
     }
 
     public void increase(int sensorNumber)

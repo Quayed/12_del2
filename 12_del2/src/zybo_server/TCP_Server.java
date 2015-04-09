@@ -43,6 +43,12 @@ public class TCP_Server
                 sensor.stop(sensorNumber);
             }
             
+            if (clientSentence.contains("STAR"))
+                {
+                int sensorNumber = (clientSentence.charAt(5)-'0');  // Get the sensorNumber
+                sensor.start(sensorNumber);
+            }
+            
             capitalizedSentence = clientSentence.toUpperCase() + '\n';
             outToClient.writeBytes(capitalizedSentence);
         }
