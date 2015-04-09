@@ -1,64 +1,48 @@
 package controller;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Connector {
+public class Connector extends SocketHandler{
 
-	private DataOutputStream out;
-	private BufferedReader in;
-	private Socket clientSocket;
-	private boolean connected;
-
-	// initialises the socket and in/out reader/stream and starts the socket thread (if not already started)
-	public void connect(String host, int port) throws UnknownHostException, IOException {
-		clientSocket = new Socket(host, port);
-		out = new DataOutputStream(clientSocket.getOutputStream());
-		in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		connected = true;
-
+	public Connector(String host, int port) throws UnknownHostException, IOException {
+		super(host, port);
+	}
+	
+	public Connector(Socket socket) throws IOException {
+		super(socket);
 	}
 
-	// sends a message to the server
-	public boolean sendMessage(String msg) {
-		try {
-			out.writeBytes(msg + "\r\n");
-		} catch (IOException e) {
-			connected = false;
-			return false;
-		}
-		return true;
+	@Override
+	public void sendData(String msg) throws IOException {
+		super.sendData(msg + "\r\n");
 	}
 
-	// this method reads server inputs on the sockets and return when there is one
-	public String getData() {
-		String input;
-		while(true){
-			try {
-				input = in.readLine();
-				return input;
-			} catch (IOException e) {
-				connected = false;
-			}
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-
+	public void rm20(String msg) throws IOException {
+		sendData("RM20 8 \""+msg+"\" \"\" \"&3\"");
 	}
 
-	public void rm20(String msg) {
-		sendMessage("RM20 8 \""+msg+"\" \"\" \"&3\"");
+	public String read() throws IOException {
+		sendData("S");
+		return getData();
 	}
 
-	public boolean isConnected() {
-		return connected;
+	public void tare() throws IOException {
+		sendData("T");
 	}
 
+	public void zero() throws IOException {
+		sendData("Z");
+	}
+
+	public void displayText(String msg) throws IOException {
+		sendData("D " + msg);
+	}
+
+	public void displayWeight() throws IOException {
+		sendData("DW");
+	}
+
+	
 }
