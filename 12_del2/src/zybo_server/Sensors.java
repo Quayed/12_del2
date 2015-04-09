@@ -35,19 +35,32 @@ public class Sensors
         sensorNames.add(sensorName);
         sensorRates.add(sensorRate);
         sensorValues.add(sensorValue);
-        System.out.println("Added" + sensorName + " with update every " + sensorRate + " seconds.");
+        System.out.println("Added " + sensorName + " with update every " + sensorRate + " seconds.");
     }
 
-    public void increase(int sensorNumber)
-    {
-        // Check for <sensornumber> available
-        // Increase <sensorsnumber>
+    public void increase(int sensorNumber)   {
+        if (sensorNames.size() >= sensorNumber-1)   {
+            if(sensorRates.get(sensorNumber-1) <= 64)   {
+               sensorRates.set(sensorNumber-1, (2*sensorRates.get(sensorNumber-1)));
+               System.out.println("Successful, Sensor "+ sensorNumber+ " now has an update Rate of"+sensorRates.get(sensorNumber-1)+" Seconds");
+            }
+         }
+        else    {
+            System.out.println("Unsuccessful, no sensor with that value. Try to print list of sensors.");
+        }
     }
 
     public void decrease(int sensorNumber)
     {
-        // Check for <sensornumber> available
-        // Decrease <sensornumber>
+        if (sensorNames.size() >= sensorNumber-1)   {
+            if(sensorRates.get(sensorNumber-1) > 1)   {
+               sensorRates.set(sensorNumber-1, (sensorRates.get(sensorNumber-1)/2));
+               System.out.println("Successful, Sensor "+ sensorNumber+ " now has an update Rate of"+sensorRates.get(sensorNumber-1)+" Seconds");
+            }
+         }
+        else    {
+            System.out.println("Unsuccessful, no sensor with that value. Try to print list of sensors.");
+        }
     }
 
     public void stop(int sensorNumber)
