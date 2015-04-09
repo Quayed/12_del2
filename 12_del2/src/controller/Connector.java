@@ -23,13 +23,33 @@ public class Connector extends SocketHandler{
 		sendData("RM20 8 \""+msg+"\" \"\" \"&3\"");
 	}
 
-	public String read() throws IOException {
+	public String getRM20() throws IOException {
+		getData();
+		String msg = getData();
+		return msg.substring(8, msg.length()-1);
+	}
+	
+	public double read() throws IOException {
 		sendData("S");
-		return getData();
+		String msg = getData();
+		if(msg.substring(8, 9).equals("-")){
+			return -Double.parseDouble(msg.substring(9, msg.length()-3));
+		}
+		else{
+			return Double.parseDouble(msg.substring(9, msg.length()-3));
+		}
 	}
 
-	public void tare() throws IOException {
+	public double tare() throws IOException {
 		sendData("T");
+		String msg = getData();
+		System.out.println(msg);
+		if(msg.substring(8, 9).equals("-")){
+			return -Double.parseDouble(msg.substring(9, msg.length()-3));
+		}
+		else{
+			return Double.parseDouble(msg.substring(9, msg.length()-3));
+		}
 	}
 
 	public void zero() throws IOException {
