@@ -17,6 +17,12 @@ public class Connector extends SocketHandler{
 	public void rm20(String msg) throws IOException {
 		println("RM20 8 \""+msg+"\" \"\" \"&3\"");
 	}
+	
+	@Override
+	public String readLine() throws IOException {
+		// removes spaces, only because of heartbeats in the simulator
+		return super.readLine().trim();
+	}
 
 	public String getRM20() throws IOException {
 		System.out.println(readLine());

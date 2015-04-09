@@ -47,10 +47,9 @@ public class Controller {
 	}
 
 	private void start() throws IOException{
+		// do a command, because the first command do not always work
 		connector.println("S");
 		System.out.println(connector.readLine());
-		
-		connector.displayText("hej");
 
 		getOperatorId();
 		getProduct();
