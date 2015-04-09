@@ -52,13 +52,16 @@ public class TCP_Server {
 					socketHandler.println(sensor.start(sensorNumber));
 				} 
                                 
-                                else if (clientSentence.contains("LIST")) {
-                                    socketHandler.println(sensor.list());
-				} 
+                                
                                 else 
 					unknownCommand();
 				
-			} else 
+			} 
+                        
+                        else if (clientSentence.equals("LIST")) {
+                                    socketHandler.println(sensor.list());
+				} 
+                        else 
 				unknownCommand();
 			
 		}
