@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -26,22 +27,27 @@ public class SocketHandler {
 	public void print(String msg) throws IOException {
 		out.writeBytes(msg);
 	}
-	
+
 	public void println(String msg) throws IOException {
-		print(msg+"\r\n");
+		print(msg + "\r\n");
 	}
 
 	public String readLine() throws IOException {
-		String line;
-		while(true){
-			line = in.readLine();
-			if(line != null)
-				return line;
-		}
+		return in.readLine();
 	}
 
 	public final void close() throws IOException {
+		in.close();
+		out.close();
 		socket.close();
+	}
+
+	public InetAddress getInetAddress() {
+		return socket.getInetAddress();
+	}
+
+	public BufferedReader getIn() {
+		return in;
 	}
 
 }
