@@ -84,11 +84,12 @@ public class Zybo_Main
                             key.nextLine();
                             String name = key.nextLine();
                             String answer = FTP.getData("RETR " + name);
+                            System.out.println(answer);
                             if (!answer.equals("File not found"))
                             {
                                 try
                                 {
-                                    FileWriter file = new FileWriter(name);
+                                    FileWriter file = new FileWriter("ftp-files/"+name.split("/")[name.split("/").length-1]);
                                     PrintWriter out = new PrintWriter(file);
                                     out.write(answer);
                                     out.close();
