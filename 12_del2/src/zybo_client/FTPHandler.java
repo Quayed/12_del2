@@ -1,16 +1,14 @@
 package zybo_client;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.net.UnknownHostException;
 
-import controller.SocketHandler;
+import shared.SocketHandler;
 
 public class FTPHandler extends SocketHandler {
 
 	public FTPHandler(String host, int port) throws UnknownHostException, IOException {
 		super(host, port);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -24,6 +22,11 @@ public class FTPHandler extends SocketHandler {
 				return input;
 			}
 		}
+	}
+
+	public String send(String in) throws IOException {
+		println(in);
+		return readLine();
 	}
 
 }

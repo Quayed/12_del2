@@ -2,7 +2,7 @@ package zybo_client;
 
 import java.io.IOException;
 
-import controller.SocketHandler;
+import shared.SocketHandler;
 
 public class TCP_Client {
 

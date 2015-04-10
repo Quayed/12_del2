@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import shared.SocketHandler;
+
 public class Connector extends SocketHandler{
 
 	public Connector(String host, int port) throws UnknownHostException, IOException {

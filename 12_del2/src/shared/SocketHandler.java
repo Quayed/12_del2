@@ -1,4 +1,4 @@
-package controller;
+package shared;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -22,6 +22,10 @@ public class SocketHandler {
 		this.socket = socket;
 		this.out = new DataOutputStream(socket.getOutputStream());
 		this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+	}
+
+	public SocketHandler(SocketHandler socketHandler, int port) throws IOException {
+		this(new Socket(socketHandler.socket.getInetAddress(), port));
 	}
 
 	public void print(String msg) throws IOException {
