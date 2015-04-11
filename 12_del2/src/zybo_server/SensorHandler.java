@@ -10,9 +10,9 @@ import java.util.List;
 public class SensorHandler
 {
 
-    List<String> sensorNames = new ArrayList<>();
-    List<Integer> sensorRates = new ArrayList<>();
-    List<Integer> sensorValues = new ArrayList<>();
+    private List<String> sensorNames = new ArrayList<>();
+    private List<Integer> sensorRates = new ArrayList<>();
+    private List<Integer> sensorValues = new ArrayList<>();
 
     public SensorHandler() throws FileNotFoundException, IOException
     {
@@ -106,6 +106,11 @@ public class SensorHandler
     {
         if (sensorNames.size() >= sensorNumber - 1)
         {
+            SampleHandler sample = new SampleHandler();
+            Thread ts = new Thread();
+            ts.start();
+            
+            /*
             if (sensorRates.get(sensorNumber - 1) == 129)
             {
                 sensorRates.set(sensorNumber - 1, 8);
@@ -113,11 +118,12 @@ public class SensorHandler
                 System.out.println(answer);
                 return answer;
             }
+            */
         }
         else
         {
             String answer = "Unsuccessful, no sensor with that value. Try to print list of sensors.";
-            System.out.println();
+            System.out.println(answer);
             return answer;
         }
         return null;
