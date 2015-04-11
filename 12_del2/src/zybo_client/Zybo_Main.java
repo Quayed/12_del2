@@ -97,7 +97,7 @@ public class Zybo_Main
                             String name = key.nextLine();
                             String answer = FTP.getData("RETR " + name);
                             System.out.println(answer);
-                            if (!answer.equals("File not found"))
+                            if (!answer.equals("\nFile not found"))
                             {
                                 try
                                 {
@@ -137,10 +137,11 @@ public class Zybo_Main
                 try
                 {
                     TCP_Client tcp = new TCP_Client();
+                    System.out.println("\nConnected.");
                     key.nextLine();
                     while (true)
                     {
-                        System.out.println("\nConnected.\nEnter command: (break with '0')");
+                        System.out.println("\nEnter command: (break with '0')");
                         String cmd = key.nextLine();
                         if (cmd.equals("0"))
                         {
