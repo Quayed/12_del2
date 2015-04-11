@@ -16,10 +16,8 @@ public class TCP_Client {
 	}
 
 	public void send(String output) throws IOException {
-                SimpleDateFormat sdataSocket = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		socketHandler.println(output);
 		modifiedSentence = socketHandler.readLine();
-		System.out.println("\n" + sdataSocket.format(new Date()) + " - FROM SERVER: " + modifiedSentence);
-	
+		System.out.println("\n" + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + " - FROM SERVER: " + modifiedSentence);	
 	}
 }

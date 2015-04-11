@@ -31,10 +31,10 @@ public class FTP_Client {
 		// Append tokens with ',':
 		StringTokenizer st = new StringTokenizer(adress, "(,)");
 		if (st.countTokens() < 7) {
-			SimpleDateFormat sdataSocket = new SimpleDateFormat(
+			SimpleDateFormat date = new SimpleDateFormat(
 					"dd/MM/yyyy HH:mm:ss - ");
 			throw new IOException(
-					sdataSocket.format(new Date())
+					date.format(new Date())
 							+ "Message receved does not follow the regular 7-token syntax (MSG.IP.IP.IP.IP.PORT.PORT");
 		}
 		// Saving the first five tokens (Message + ip-adress):

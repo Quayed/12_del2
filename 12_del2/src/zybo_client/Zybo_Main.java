@@ -19,7 +19,7 @@ public class Zybo_Main
         String pass;
         String user;
         String ip;
-        SimpleDateFormat sdataSocket = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         java.util.Scanner key = new java.util.Scanner(System.in);
         FTP_Client FTP = new FTP_Client();
         while (true)
@@ -41,7 +41,7 @@ public class Zybo_Main
                     {
                         try
                         {
-                            System.out.println("\n" + sdataSocket.format(new Date()) + " - Connecting to server...");
+                            System.out.println("\n" + date.format(new Date()) + " - Connecting to server...");
 
                             if (FTP.connect(user, pass))
                             {
@@ -55,17 +55,17 @@ public class Zybo_Main
                         catch (ConnectException e)
                         {
                             //e.printStackTrace();
-                            System.out.println("\n" + sdataSocket.format(new Date()) + " - Connection timed out.");
+                            System.out.println("\n" + date.format(new Date()) + " - Connection timed out.");
                         }
                         catch (UnknownHostException e)
                         {
                             //e.printStackTrace();
-                            System.out.println("\n" + sdataSocket.format(new Date()) + " - Unknown host.");
+                            System.out.println("\n" + date.format(new Date()) + " - Unknown host.");
                         }
                         catch (SocketException e)
                         {
                             //e.printStackTrace();
-                            System.out.println("\n" + sdataSocket.format(new Date()) + " - Network is unreachable.");
+                            System.out.println("\n" + date.format(new Date()) + " - Network is unreachable.");
                         }
 
                     }
@@ -101,17 +101,17 @@ public class Zybo_Main
                                 PrintWriter out = new PrintWriter(file);
                                 out.write(answer);
                                 out.close();
-                                System.out.println("\n" + sdataSocket.format(new Date()) + " - <" + name + "> has been downloaded succesfully!");
+                                System.out.println("\n" + date.format(new Date()) + " - <" + name + "> has been downloaded succesfully!");
                             }
                             catch (FileNotFoundException e)
                             {
                                 //e.printStackTrace();
-                                System.out.println("\n" + sdataSocket.format(new Date()) + " - File not writable on local disk!");
+                                System.out.println("\n" + date.format(new Date()) + " - File not writable on local disk!");
                             }
                         }
                         else
                         {
-                            System.out.println("\n" + sdataSocket.format(new Date()) + " - 550 " + answer + ".");
+                            System.out.println("\n" + date.format(new Date()) + " - 550 " + answer + ".");
                         }
                     }
                     else if (type == 3)
@@ -119,7 +119,7 @@ public class Zybo_Main
                         System.out.println("\nEnter filename:\n");
                         key.nextLine();
                         String name = key.nextLine();
-                        System.out.println("\n" + sdataSocket.format(new Date()) + " - " + FTP.ftpHandler.send("DELE " + name));
+                        System.out.println("\n" + date.format(new Date()) + " - " + FTP.ftpHandler.send("DELE " + name));
                     }
                     else if (type == 0)
                     {
@@ -132,7 +132,7 @@ public class Zybo_Main
                 try
                 {
                     TCP_Client tcp = new TCP_Client();
-                    System.out.println("\nConnected.");
+                    System.out.println("\nConnected on port 8001.");
                     key.nextLine();
                     while (true)
                     {
@@ -151,17 +151,17 @@ public class Zybo_Main
                 catch (ConnectException e)
                 {
                     //e.printStackTrace();
-                    System.out.println("\n" + sdataSocket.format(new Date()) + " - Connection timed out.");
+                    System.out.println("\n" + date.format(new Date()) + " - Connection timed out.");
                 }
                 catch (UnknownHostException e)
                 {
                     //e.printStackTrace();
-                    System.out.println("\n" + sdataSocket.format(new Date()) + " - Unknown host.");
+                    System.out.println("\n" + date.format(new Date()) + " - Unknown host.");
                 }
                 catch (SocketException e)
                 {
                     //e.printStackTrace();
-                    System.out.println("\n" + sdataSocket.format(new Date()) + " - Network is unreachable.");
+                    System.out.println("\n" + date.format(new Date()) + " - Network is unreachable.");
                 }
             }
         }
