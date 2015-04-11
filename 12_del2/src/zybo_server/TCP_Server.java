@@ -21,53 +21,60 @@ public class TCP_Server
             String clientSentence;
             ServerSocket welcomeSocket = new ServerSocket(8001);
 
-            System.out.println("Ready for connection");
+            System.out.println("\nReady for connection on port 8001");
 
             Socket connectionSocket = welcomeSocket.accept();
 
             socketHandler = new SocketHandler(connectionSocket);
 
+            System.out.println("\nClient connected on port 8001");
+
             while (true)
             {
-
-                System.out.println("Server running on port 8001");
-
                 clientSentence = socketHandler.readLine();
 
                 System.out.println("Received: " + clientSentence);
 
                 if (clientSentence.length() == 6)
                 {
-                    if (clientSentence.startsWith("INCR"))
+                    try
                     {
-                        int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
-                        socketHandler.println(sensor.increase(sensorNumber));
-                    }
+                        if (clientSentence.startsWith("INCR"))
+                        {
+                            int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
+                            socketHandler.println(sensor.increase(sensorNumber));
+                        }
 
-                    else if (clientSentence.contains("DECR"))
-                    {
-                        int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
-                        socketHandler.println(sensor.decrease(sensorNumber));
-                    }
+                        else if (clientSentence.startsWith("DECR"))
+                        {
+                            int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
+                            socketHandler.println(sensor.decrease(sensorNumber));
+                        }
 
-                    else if (clientSentence.contains("STOP"))
-                    {
-                        int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
-                        socketHandler.println(sensor.stop(sensorNumber));
-                    }
+                        else if (clientSentence.startsWith("STOP"))
+                        {
+                            int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
+                            socketHandler.println(sensor.stop(sensorNumber));
+                        }
 
-                    else if (clientSentence.contains("STAR"))
-                    {
-                        int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
-                        socketHandler.println(sensor.start(sensorNumber));
-                    }
+                        else if (clientSentence.startsWith("STAR"))
+                        {
+                            int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
+                            socketHandler.println(sensor.start(sensorNumber));
+                        }
 
-                    else
+                        else
+                        {
+                            unknownCommand();
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e)
                     {
-                        unknownCommand();
+                        System.out.println("Sensor doesn't exist.");
+                        socketHandler.println("Unsuccessful, no sensor with that value. Try to print list of sensors.");
+                        //e.printStackTrace();                
                     }
                 }
-
                 else if (clientSentence.equals("LIST"))
                 {
                     socketHandler.println(sensor.list());
@@ -89,7 +96,7 @@ public class TCP_Server
             System.out.println("Cannot read sensor-file. Exiting.");
             System.exit(-1);
             //e.printStackTrace();                
-        }        
+        }
     }
 
     private void unknownCommand() throws IOException
