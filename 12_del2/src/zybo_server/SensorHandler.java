@@ -7,14 +7,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sensors
+public class SensorHandler
 {
 
     List<String> sensorNames = new ArrayList<>();
     List<Integer> sensorRates = new ArrayList<>();
     List<Integer> sensorValues = new ArrayList<>();
 
-    public Sensors() throws FileNotFoundException, IOException
+    public SensorHandler() throws FileNotFoundException, IOException
     {
         FileReader fil = new FileReader("Sensors.txt");
         BufferedReader ind = new BufferedReader(fil);

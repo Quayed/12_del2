@@ -21,7 +21,7 @@ public class TCP_Server
         SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try
         {
-            Sensors sensor = new Sensors();
+            SensorHandler sensor = new SensorHandler();
             String clientSentence;
             ServerSocket welcomeSocket = new ServerSocket(8001);
 
