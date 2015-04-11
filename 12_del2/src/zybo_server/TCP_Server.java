@@ -84,6 +84,12 @@ public class TCP_Server
             System.exit(-1);
             //e.printStackTrace();                
         }
+        catch (FileNotFoundException e)
+        {
+            System.out.println("Cannot read sensor-file. Exiting.");
+            System.exit(-1);
+            //e.printStackTrace();                
+        }        
     }
 
     private void unknownCommand() throws IOException
