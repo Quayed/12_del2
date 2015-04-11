@@ -13,12 +13,12 @@ import java.util.Date;
 public class Zybo_Main
 {
 
+    
     public static void main(String[] args) throws IOException, InterruptedException, ConnectException, UnknownHostException, SocketException
     {
         boolean connected;
         String pass;
         String user;
-        String ip;
         SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         java.util.Scanner key = new java.util.Scanner(System.in);
         FTP_Client FTP = new FTP_Client();

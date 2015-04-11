@@ -13,12 +13,12 @@ import shared.SocketHandler;
 
 public class TCP_Server
 {
+    private final SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     SocketHandler socketHandler;
 
     public TCP_Server() throws FileNotFoundException, IOException
     {
-        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try
         {
             SensorHandler sensor = new SensorHandler();
@@ -110,7 +110,7 @@ public class TCP_Server
 
     private void unknownCommand() throws IOException
     {
-        String answer = "Unknown command!";
+        String answer = "\n" + date.format(new Date()) + " - Unknown command!";
         System.out.println(answer);
         socketHandler.println(answer);
     }
