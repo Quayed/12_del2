@@ -13,7 +13,6 @@ import java.util.Date;
 public class Zybo_Main
 {
 
-    
     public static void main(String[] args) throws IOException, InterruptedException, ConnectException, UnknownHostException, SocketException
     {
         boolean connected;
@@ -123,6 +122,7 @@ public class Zybo_Main
                     }
                     else if (type == 0)
                     {
+                        System.out.println("\n" + date.format(new Date()) + " - Disconnected");
                         break;
                     }
                 }
@@ -134,44 +134,61 @@ public class Zybo_Main
                     TCP_Client tcp = new TCP_Client();
                     System.out.println("\nConnected on port 8001.");
                     key.nextLine();
+
                     System.out.println("\nType '1' to list sensors:\n\nType '2' to increase sample rate:\n\nType '3' to decrease sampling rate");
-                    System.out.println("\nType '4' to start logging:\n\nType '5' to stop logging:\n\nType '0' to return to main menu");
+                    System.out.println("\nType '4' to start logging:\n\nType '5' to stop logging:\n\nType '0' to return to main menu:\n\nType '?' to display help");
+
                     while (true)
                     {
-                        int cmd = key.nextInt();
-                        if (cmd == 0)
+                        try
                         {
-                            break;
-                        }
-                        else if (cmd == 1)
-                        {
-                            tcp.send("LIST");
-                        }
-                        else if (cmd > 1 && cmd < 6)
-                        {
-                            System.out.println("\nEnter sensor-number:");
-                            int sensorNumber = key.nextInt();
-                            String output;
-                            int answer = cmd;
-                            switch (answer)
+                            String cmd = key.nextLine();
+                            if (cmd.equals("?"))
                             {
-                                case 1:
-                                    output = "INCR";
-                                    break;
-                                case 2:
-                                    output = "DECR";
-                                    break;
-                                case 3:
-                                    output = "STAR";
-                                    break;
-                                case 4:
-                                    output = "STOP";
-                                    break;
-                                default:
-                                    output = "";
-                                    break;
+                                System.out.println("\nType '1' to list sensors:\n\nType '2' to increase sample rate:\n\nType '3' to decrease sampling rate");
+                                System.out.println("\nType '4' to start logging:\n\nType '5' to stop logging:\n\nType '0' to return to main menu:\n\nType '?' to display help");
                             }
-                            tcp.send(output + "_" + sensorNumber);
+
+                            else if (cmd.equals("0"))
+                            {
+                                break;
+                            }
+
+                            else if (cmd.equals("1"))
+                            {
+                                tcp.send("LIST");
+                            }
+
+                            else if (Integer.parseInt(cmd) > 1 && Integer.parseInt(cmd) < 6)
+                            {
+                                System.out.println("\nEnter sensor-number:");
+                                int sensorNumber = key.nextInt();
+                                int answer = Integer.parseInt(cmd) - 1;
+                                String output;
+                                switch (answer)
+                                {
+                                    case 1:
+                                        output = "INCR";
+                                        break;
+                                    case 2:
+                                        output = "DECR";
+                                        break;
+                                    case 3:
+                                        output = "STAR";
+                                        break;
+                                    case 4:
+                                        output = "STOP";
+                                        break;
+                                    default:
+                                        output = "";
+                                        break;
+                                }
+                                tcp.send(output + "_" + sensorNumber);
+                            }
+                        }
+                        catch (NumberFormatException e)
+                        {
+                            System.out.println("\n" + date.format(new Date()) + " - Wrong Input.");
                         }
                     }
                 }
