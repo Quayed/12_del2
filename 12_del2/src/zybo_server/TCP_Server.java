@@ -71,7 +71,7 @@ public class TCP_Server
                             unknownCommand();
                         }
                     }
-                    catch (ArrayIndexOutOfBoundsException e)
+                    catch (IndexOutOfBoundsException e)
                     {
                         System.out.println("\n" + sdataSocket.format(new Date()) + " - Sensor doesn't exist.");
                         socketHandler.println("Unsuccessful, no sensor with that value. Try to print list of sensors.");
