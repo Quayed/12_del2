@@ -139,7 +139,7 @@ public class Zybo_Main
                     System.out.println("\nType '4' to start logging:\n\nType '5' to stop logging:\n\nType '0' to return to main menu:\n\nType '?' to display help");
 
                     while (true)
-                    {
+                    {                       
                         try
                         {
                             String cmd = key.nextLine();
@@ -151,6 +151,7 @@ public class Zybo_Main
 
                             else if (cmd.equals("0"))
                             {
+                                System.out.println("\n" + date.format(new Date()) + " - Disconnected.");
                                 break;
                             }
 
@@ -158,13 +159,14 @@ public class Zybo_Main
                             {
                                 tcp.send("LIST");
                             }
-
+                            
                             else if (Integer.parseInt(cmd) > 1 && Integer.parseInt(cmd) < 6)
                             {
                                 System.out.println("\nEnter sensor-number:");
                                 int sensorNumber = key.nextInt();
+                                key.nextLine();
                                 int answer = Integer.parseInt(cmd) - 1;
-                                String output;
+                                String output = null;
                                 switch (answer)
                                 {
                                     case 1:
@@ -179,15 +181,13 @@ public class Zybo_Main
                                     case 4:
                                         output = "STOP";
                                         break;
-                                    default:
-                                        output = "";
-                                        break;
                                 }
                                 tcp.send(output + "_" + sensorNumber);
                             }
                         }
                         catch (NumberFormatException e)
                         {
+                            //e.printStackTrace();
                             System.out.println("\n" + date.format(new Date()) + " - Wrong Input.");
                         }
                     }
