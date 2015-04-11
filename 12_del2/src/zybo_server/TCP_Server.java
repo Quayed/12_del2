@@ -17,26 +17,26 @@ public class TCP_Server
 
     public TCP_Server() throws FileNotFoundException, IOException
     {
-        SimpleDateFormat sdataSocket = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try
         {
             Sensors sensor = new Sensors();
             String clientSentence;
             ServerSocket welcomeSocket = new ServerSocket(8001);
 
-            System.out.println("\n" + sdataSocket.format(new Date()) + " - Ready for connection on port 8001");
+            System.out.println("\n" + date.format(new Date()) + " - Ready for connection on port 8001");
 
             Socket connectionSocket = welcomeSocket.accept();
 
             socketHandler = new SocketHandler(connectionSocket);
 
-            System.out.println("\n" + sdataSocket.format(new Date()) + " - Client connected on port 8001");
+            System.out.println("\n" + date.format(new Date()) + " - Client connected on port 8001");
 
             while (true)
             {
                 clientSentence = socketHandler.readLine();
 
-                System.out.println("\n" + sdataSocket.format(new Date()) + " - Received: " + clientSentence);
+                System.out.println("\n" + date.format(new Date()) + " - Received: " + clientSentence);
 
                 if (clientSentence.length() == 6)
                 {
@@ -73,7 +73,7 @@ public class TCP_Server
                     }
                     catch (IndexOutOfBoundsException e)
                     {
-                        System.out.println("\n" + sdataSocket.format(new Date()) + " - Sensor doesn't exist.");
+                        System.out.println("\n" + date.format(new Date()) + " - Sensor doesn't exist.");
                         socketHandler.println("Unsuccessful, no sensor with that value. Try to print list of sensors.");
                         //e.printStackTrace();                
                     }
@@ -90,13 +90,13 @@ public class TCP_Server
         }
         catch (BindException e)
         {
-            System.out.println("\n" + sdataSocket.format(new Date()) + " - Address already in use. Exiting.");
+            System.out.println("\n" + date.format(new Date()) + " - Address already in use. Exiting.");
             System.exit(-1);
             //e.printStackTrace();                
         }
         catch (FileNotFoundException e)
         {
-            System.out.println("\n" + sdataSocket.format(new Date()) + " - Cannot read sensor-file. Exiting.");
+            System.out.println("\n" + date.format(new Date()) + " - Cannot read sensor-file. Exiting.");
             System.exit(-1);
             //e.printStackTrace();                
         }
