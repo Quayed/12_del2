@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -100,6 +101,11 @@ public class TCP_Server
             System.exit(-1);
             //e.printStackTrace();                
         }
+        catch (SocketException e)
+        {
+            System.out.println("\n" + date.format(new Date()) + " - Client disconnected.");
+            //e.printStackTrace();                
+        }        
     }
 
     private void unknownCommand() throws IOException
