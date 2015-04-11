@@ -30,12 +30,8 @@ public class Zybo_Main
             int type = key.nextInt();
             if (type == 1)
             {
-                System.out.println("\nEnter IP-adress: ");
-                key.nextLine();
-                ip = key.nextLine();
-                if (!ip.equals(""))
-                {
                     System.out.println("\nEnter username: ");
+                    key.nextLine();
                     user = key.nextLine();
                     if (!user.equals(""))
                     {
@@ -47,7 +43,7 @@ public class Zybo_Main
                             {
                                 System.out.println("\n" + sdataSocket.format(new Date()) + " - Connecting to server...");
 
-                                if (FTP.connect(ip, user, pass))
+                                if (FTP.connect(user, pass))
                                 {
                                     connected = true;
                                 }
@@ -129,8 +125,7 @@ public class Zybo_Main
                         {
                             break;
                         }
-                    }
-                }
+                    }               
             }
             else if (type == 2)
             {
