@@ -15,10 +15,10 @@ public class TCP_Server
 
     public TCP_Server() throws FileNotFoundException, IOException
     {
-        Sensors sensor = new Sensors();
-        String clientSentence;
         try
         {
+            Sensors sensor = new Sensors();
+            String clientSentence;
             ServerSocket welcomeSocket = new ServerSocket(8001);
 
             System.out.println("Ready for connection");
