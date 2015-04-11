@@ -35,7 +35,7 @@ public class FTP_Client {
 					"dd/MM/yyyy HH:mm:ss - ");
 			throw new IOException(
 					date.format(new Date())
-							+ "Message receved does not follow the regular 7-token syntax (MSG.IP.IP.IP.IP.PORT.PORT");
+							+ "Message received does not follow the regular 7-token syntax (MSG.IP.IP.IP.IP.PORT.PORT");
 		}
 		// Saving the first five tokens (Message + ip-adress):
 		for (int i = 0; i < 5; i++) {
