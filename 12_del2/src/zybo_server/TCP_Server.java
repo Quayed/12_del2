@@ -25,7 +25,7 @@ public class TCP_Server
             String clientSentence;
             ServerSocket welcomeSocket = new ServerSocket(8001);
 
-            System.out.println("\n" + date.format(new Date()) + " - Ready for connection on port 8001");
+            System.out.println("\n" + date.format(new Date()) + " - Ready for connections on port 8001");
 
             Socket connectionSocket = welcomeSocket.accept();
 
@@ -103,8 +103,7 @@ public class TCP_Server
         }
         catch (SocketException e)
         {
-            System.out.println("\n" + date.format(new Date()) + " - Client disconnected.");
-            //e.printStackTrace();                
+            System.out.println("\n" + date.format(new Date()) + " - Client disconnected.");                
         }        
     }
 
