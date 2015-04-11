@@ -134,17 +134,44 @@ public class Zybo_Main
                     TCP_Client tcp = new TCP_Client();
                     System.out.println("\nConnected on port 8001.");
                     key.nextLine();
+                    System.out.println("\nType '1' to list sensors:\n\nType '2' to increase sample rate:\n\nType '3' to decrease sampling rate");
+                    System.out.println("\nType '4' to start logging:\n\nType '5' to stop logging:\n\nType '0' to return to main menu");
                     while (true)
                     {
-                        System.out.println("\nEnter command: (break with '0')");
-                        String cmd = key.nextLine();
-                        if (cmd.equals("0"))
+                        int cmd = key.nextInt();
+                        if (cmd == 0)
                         {
                             break;
                         }
-                        else
+                        else if (cmd == 1)
                         {
-                            tcp.send(cmd);
+                            tcp.send("LIST");
+                        }
+                        else if (cmd > 1 && cmd < 6)
+                        {
+                            System.out.println("\nEnter sensor-number:");
+                            int sensorNumber = key.nextInt();
+                            String output;
+                            int answer = cmd;
+                            switch (answer)
+                            {
+                                case 1:
+                                    output = "INCR";
+                                    break;
+                                case 2:
+                                    output = "DECR";
+                                    break;
+                                case 3:
+                                    output = "STAR";
+                                    break;
+                                case 4:
+                                    output = "STOP";
+                                    break;
+                                default:
+                                    output = "";
+                                    break;
+                            }
+                            tcp.send(output + "_" + sensorNumber);
                         }
                     }
                 }
