@@ -5,13 +5,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ConnectException;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Zybo_Main
 {
 
-    public static void main(String[] args) throws IOException, InterruptedException, ConnectException
+    public static void main(String[] args) throws IOException, InterruptedException, ConnectException, UnknownHostException, SocketException
     {
         boolean connected;
         String pass;
@@ -57,9 +59,19 @@ public class Zybo_Main
                             catch (ConnectException e)
                             {
                                 //e.printStackTrace();
-                                System.out.println("\n" + sdataSocket.format(new Date()) + " - Connection timed out. Exiting!");
-                                System.exit(-1);
+                                System.out.println("\n" + sdataSocket.format(new Date()) + " - Connection timed out.");
                             }
+                            catch (UnknownHostException e)
+                            {
+                                //e.printStackTrace();
+                                System.out.println("\n" + sdataSocket.format(new Date()) + " - Unknown host.");
+                            }
+                            catch (SocketException e)
+                            {
+                                //e.printStackTrace();
+                                System.out.println("\n" + sdataSocket.format(new Date()) + " - Network is unreachable.");
+                            }
+
                         }
                     }
                     while (connected)
@@ -89,7 +101,7 @@ public class Zybo_Main
                             {
                                 try
                                 {
-                                    FileWriter file = new FileWriter("ftp-files/"+name.split("/")[name.split("/").length-1]);
+                                    FileWriter file = new FileWriter("ftp-files/" + name.split("/")[name.split("/").length - 1]);
                                     PrintWriter out = new PrintWriter(file);
                                     out.write(answer);
                                     out.close();
@@ -122,20 +134,38 @@ public class Zybo_Main
             }
             else if (type == 2)
             {
-                TCP_Client tcp = new TCP_Client();
-                key.nextLine();
-                while (true)
+                try
                 {
-                    System.out.println("Enter command: (break with '0')");
-                    String cmd = key.nextLine();
-                    if (cmd.equals("0"))
+                    TCP_Client tcp = new TCP_Client();
+                    key.nextLine();
+                    while (true)
                     {
-                        break;
+                        System.out.println("\nConnected.\nEnter command: (break with '0')");
+                        String cmd = key.nextLine();
+                        if (cmd.equals("0"))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            tcp.send(cmd);
+                        }
                     }
-                    else
-                    {
-                        tcp.send(cmd);
-                    }
+                }
+                catch (ConnectException e)
+                {
+                    //e.printStackTrace();
+                    System.out.println("\n" + sdataSocket.format(new Date()) + " - Connection timed out.");
+                }
+                catch (UnknownHostException e)
+                {
+                    //e.printStackTrace();
+                    System.out.println("\n" + sdataSocket.format(new Date()) + " - Unknown host.");
+                }
+                catch (SocketException e)
+                {
+                    //e.printStackTrace();
+                    System.out.println("\n" + sdataSocket.format(new Date()) + " - Network is unreachable.");
                 }
             }
         }

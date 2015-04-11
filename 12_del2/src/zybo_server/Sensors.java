@@ -116,7 +116,7 @@ public class Sensors
         }
         else
         {
-            String answer = "Unsuccessfull, no sensor with that value. Try to print list of sensors.";
+            String answer = "Unsuccessful, no sensor with that value. Try to print list of sensors.";
             System.out.println();
             return answer;
         }
