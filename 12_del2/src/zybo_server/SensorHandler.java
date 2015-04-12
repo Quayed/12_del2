@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SensorHandler
 {
@@ -13,11 +16,13 @@ public class SensorHandler
     private final List<String> sensorNames = new ArrayList<>();
     private final List<Integer> sensorRates = new ArrayList<>();
     private final List<Integer> sensorValues = new ArrayList<>();
+    private volatile SampleHandler sample;
 
     public SensorHandler() throws FileNotFoundException, IOException
     {
         FileReader fil = new FileReader("Sensors.txt");
         BufferedReader ind = new BufferedReader(fil);
+
         String linje = ind.readLine();
         while (linje != null)
         {
@@ -80,14 +85,19 @@ public class SensorHandler
         return null;
     }
 
-    public String stop(int sensorNumber)
+    public String stop(int sensorNumber) throws InterruptedException
     {
         if (sensorNames.size() >= sensorNumber - 1)
         {
-            if (sensorRates.get(sensorNumber - 1) != 129)
+            if (sample.Exit(sensorNumber).equals(sensorNumber + "true"))
             {
-                sensorRates.set(sensorNumber - 1, 129);
                 String answer = "Successful, Sensor " + sensorNumber + " has been stopped";
+                System.out.println(answer);
+                return answer;
+            }
+            else
+            {
+                String answer = "Unsuccessful, could not stop sensor.";
                 System.out.println(answer);
                 return answer;
             }
@@ -98,29 +108,18 @@ public class SensorHandler
             System.out.println(answer);
             return answer;
         }
-        return null;
-
     }
 
     public String start(int sensorNumber) throws IOException
     {
         if (sensorNames.size() >= sensorNumber - 1)
         {
-            SampleHandler sample = new SampleHandler(sensorNames.get(sensorNumber - 1), sensorRates.get(sensorNumber - 1), sensorValues.get(sensorNumber - 1));
+            sample = new SampleHandler(sensorNames.get(sensorNumber - 1), sensorNumber, sensorRates.get(sensorNumber - 1), sensorValues.get(sensorNumber - 1));
             Thread sh = new Thread(sample);
             sh.start();
             String answer = "Successful, Sensor " + sensorNumber + " has started logging with an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds";
             System.out.println(answer);
             return answer;
-            /*
-             if (sensorRates.get(sensorNumber - 1) == 129)
-             {
-             sensorRates.set(sensorNumber - 1, 8);
-             String answer = "Successful, Sensor " + sensorNumber + " now has an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds";
-             System.out.println(answer);
-             return answer;
-             }
-             */
         }
         else
         {

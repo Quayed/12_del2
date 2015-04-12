@@ -17,7 +17,7 @@ public class TCP_Server
 
     SocketHandler socketHandler;
 
-    public TCP_Server() throws FileNotFoundException, IOException
+    public TCP_Server() throws FileNotFoundException, IOException, InterruptedException
     {
         try
         {
