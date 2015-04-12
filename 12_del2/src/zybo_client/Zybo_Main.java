@@ -21,6 +21,7 @@ public class Zybo_Main
         String user;
         SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         java.util.Scanner key = new java.util.Scanner(System.in);
+        java.util.Scanner ints = new java.util.Scanner(System.in);
         FTP_Client FTP = new FTP_Client();
         while (true)
         {
@@ -29,11 +30,10 @@ public class Zybo_Main
             System.out.println("\nType '1' for FTP:\n\nType '2' for TCP:");
             try
             {
-                int type = key.nextInt();
+                int type = ints.nextInt();
                 if (type == 1)
                 {
                     System.out.println("\nEnter username: ");
-                    key.nextLine();
                     user = key.nextLine();
                     if (!user.equals(""))
                     {
@@ -75,7 +75,7 @@ public class Zybo_Main
                     while (connected)
                     {
                         System.out.println("Type '0' to return to main menu\n\nType '1' to list files:\n\nType '2' to retrieve file:\n\nType '3' to delete file:");
-                        type = key.nextInt();
+                        type = ints.nextInt();
                         if (type == 1)
                         {
                             String answer = FTP.getData("LIST");
@@ -91,7 +91,6 @@ public class Zybo_Main
                         else if (type == 2)
                         {
                             System.out.println("\nEnter filename:\n");
-                            key.nextLine();
                             String name = key.nextLine();
                             String answer = FTP.getData("RETR " + name);
                             System.out.println(answer);
@@ -119,7 +118,6 @@ public class Zybo_Main
                         else if (type == 3)
                         {
                             System.out.println("\nEnter filename:\n");
-                            key.nextLine();
                             String name = key.nextLine();
                             System.out.println("\n" + date.format(new Date()) + " - " + FTP.ftpHandler.send("DELE " + name));
                         }
@@ -136,15 +134,17 @@ public class Zybo_Main
                     {
                         TCP_Client tcp = new TCP_Client();
                         System.out.println("\nConnected on port 8001.");
-                        key.nextLine();
+
 
                         System.out.println("\nType '1' to list sensors:\n\nType '2' to increase sample rate:\n\nType '3' to decrease sampling rate");
                         System.out.println("\nType '4' to start logging:\n\nType '5' to stop logging:\n\nType '6' to delete sensor-log:");
                         System.out.println("\nType '0' to return to main menu:\n\nType '?' to display help");
                         while (true)
                         {
+
+                                
                             try
-                            {
+                            {                               
                                 String cmd = key.nextLine();
                                 if (cmd.equals("?"))
                                 {
@@ -167,8 +167,7 @@ public class Zybo_Main
                                 else if (Integer.parseInt(cmd) > 1 && Integer.parseInt(cmd) < 6)
                                 {
                                     System.out.println("\nEnter sensor-number:");
-                                    int sensorNumber = key.nextInt();
-                                    key.nextLine();
+                                    int sensorNumber = ints.nextInt();                                   
                                     int answer = Integer.parseInt(cmd) - 1;
                                     String output = null;
                                     switch (answer)
@@ -192,12 +191,15 @@ public class Zybo_Main
                                 {
                                     tcp.send("DELE");
                                 }
+                                else
+                                {
+                                    System.out.println("\n" + date.format(new Date()) + " - Unknown menu.");
+                                }
                             }
                             catch (NumberFormatException | InputMismatchException e)
                             {
                                 //e.printStackTrace();
-                                key.nextLine();
-                                System.out.println("\n" + date.format(new Date()) + " - Wrong Input.");
+                                System.out.println("\n" + date.format(new Date()) + " - Unknown menu.");
                             }
                         }
                     }
@@ -220,18 +222,11 @@ public class Zybo_Main
                         System.out.println("\n" + date.format(new Date()) + " - Network is unreachable.");
                     }
 
-                    catch (NumberFormatException | InputMismatchException e)
-                    {
-                        //e.printStackTrace();
-                        key.nextLine();
-                        System.out.println("\n" + date.format(new Date()) + " - Wrong Input.");
-                    }
                 }
             }
             catch (NumberFormatException | InputMismatchException e)
             {
                 //e.printStackTrace();
-                key.nextLine();
                 System.out.println("\n" + date.format(new Date()) + " - Wrong Input.");
             }
         }
