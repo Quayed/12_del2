@@ -23,7 +23,8 @@ public class TCP_Server
         SensorHandler sensor = new SensorHandler();
         String clientSentence;
         ServerSocket welcomeSocket = new ServerSocket(8001);
-
+        System.out.println("\n" + date.format(new Date()) + " - Ready for connections on port 8001");
+        
         while (true)
         {
             Socket connectionSocket = welcomeSocket.accept();
@@ -32,7 +33,7 @@ public class TCP_Server
 
             while (true)
             {
-                System.out.println("\n" + date.format(new Date()) + " - Ready for connections on port 8001");
+                
                 try
                 {
 
