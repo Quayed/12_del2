@@ -149,7 +149,6 @@ public class Zybo_Main
 
                                 else if (cmd.equals("0"))
                                 {
-                                    System.out.println("\n" + date.format(new Date()) + " - Disconnected.");
                                     break;
                                 }
 
