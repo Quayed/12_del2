@@ -111,16 +111,10 @@ public class SensorHandler
             SampleHandler sample = new SampleHandler(sensorNames.get(sensorNumber - 1), sensorRates.get(sensorNumber - 1), sensorValues.get(sensorNumber - 1));
             Thread sh = new Thread(sample, sensorNumber + "");
             sh.start();
-            System.out.println(sh.getState().toString());
-                            /*    for (Thread t : Thread.getAllStackTraces().keySet())
-            {
-                if (t.getName().equals(sensorNumber + ""))
-                {
-                    String answer = "Successful, Sensor " + sensorNumber + " has started logging with an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds";
-                    System.out.println(answer);
-                    return answer;
-                }
-            }*/
+
+            String answer = "Successful, Sensor " + sensorNumber + " has started logging with an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds";
+            System.out.println(answer);
+            return answer;
         }
         else
         {
@@ -128,7 +122,6 @@ public class SensorHandler
             System.out.println(answer);
             return answer;
         }
-        return null;
     }
 
     public String list()
