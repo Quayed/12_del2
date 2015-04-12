@@ -4,15 +4,23 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
-import entity.dto.FormulaDTO;
+import entity.dto.FormulaCompDTO;
+import entity.dto.MaterialDTO;
+import entity.dto.OperatorDTO;
 
 public class Data implements IData {
 
 	private BufferedReader reader;
 
 	@Override
-	public String getMaterialBatch(int productId) {
+	public OperatorDTO getOperator(int oprID) {
+		return new OperatorDTO(oprID, "Test Operatør");
+	}
+	
+	@Override
+	public MaterialDTO getMaterialBatch(int materialBatchId) {
 		String productName = null;
 		
 		try {
@@ -26,9 +34,9 @@ public class Data implements IData {
 			while(true){
 				line = reader.readLine();
 				if(line != null){
-					if(line.startsWith(String.valueOf(productId))){
+					if(line.startsWith(String.valueOf(materialBatchId))){
 						productName = line.substring(line.indexOf(",")+2, line.indexOf(",", line.indexOf(",") +1));
-						return productName;
+						return new MaterialDTO(materialBatchId, productName, 1);
 					}
 				}
 				else
@@ -47,14 +55,15 @@ public class Data implements IData {
 	}
 
 	@Override
-	public String getOperator(int oprID) {
+	public List<FormulaCompDTO> getFormulaCompList() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public FormulaDTO getFormula(int formulaId) {
-		return new FormulaDTO(formulaId, "Eksempel");
+	public void updateMaterial(int getmaterialID, double tare, double netto, int oprID) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

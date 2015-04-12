@@ -1,15 +1,19 @@
 package entity;
 
-import entity.dto.FormulaDTO;
-import entity.dto.MaterialBatchDTO;
+import java.util.List;
+
+import entity.dto.FormulaCompDTO;
+import entity.dto.MaterialDTO;
 import entity.dto.OperatorDTO;
 
 public interface IData {
 
-	MaterialBatchDTO getMaterialBatch(int materialId);
-
 	OperatorDTO getOperator(int oprID);
 
-	FormulaDTO getFormula(int formulaId);
+	List<FormulaCompDTO> getFormulaCompList();
+
+	MaterialDTO getMaterialBatch(int materialId);
+
+	void updateMaterial(int getmaterialID, double tare, double netto, int oprID);
 
 }
