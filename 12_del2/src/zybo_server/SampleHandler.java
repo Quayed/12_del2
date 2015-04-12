@@ -1,5 +1,6 @@
 package zybo_server;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -27,10 +28,20 @@ public class SampleHandler implements Runnable
     {
         try
         {
-            FileWriter file = new FileWriter("/home/xilinx/SensorData.log", true);
-            PrintWriter out = new PrintWriter(file);
-            out.println(date.format(new Date()) + " - Value of " + sensorName + " = " + sampleValue + " (" + sampleRate + " sec. sample rate)");
-            out.close();
+            if (new File("/home/xilinx/SensorData.log").exists())
+            {
+                FileWriter file = new FileWriter("/home/xilinx/SensorData.log", true);
+                PrintWriter out = new PrintWriter(file);
+                out.println(date.format(new Date()) + " - Value of " + sensorName + " = " + sampleValue + " (" + sampleRate + " sec. sample rate)");
+                out.close();
+            }
+            else
+            {
+                FileWriter file = new FileWriter("/home/xilinx/SensorData.log");
+                PrintWriter out = new PrintWriter(file);
+                out.println(date.format(new Date()) + " - Value of " + sensorName + " = " + sampleValue + " (" + sampleRate + " sec. sample rate)");
+                out.close();
+            }
         }
         catch (IOException e)
         {
@@ -52,7 +63,9 @@ public class SampleHandler implements Runnable
                     Thread.sleep(sampleRate * 1000);
                 }
                 else
+                {
                     return;
+                }
             }
             catch (InterruptedException e)
             {
