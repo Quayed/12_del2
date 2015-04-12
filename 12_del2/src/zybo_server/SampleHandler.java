@@ -13,12 +13,14 @@ public class SampleHandler implements Runnable
     private final String sensorName;
     private final int sampleRate;
     private final int sampleValue;
+    private boolean exit;
 
     public SampleHandler(String name, int rate, int value)
     {
         sensorName = name;
         sampleRate = rate;
         sampleValue = value;
+        exit = false;
     }
 
     public void saveToFile()
@@ -33,6 +35,7 @@ public class SampleHandler implements Runnable
         catch (IOException e)
         {
             System.out.println("\n" + date.format(new Date()) + " - Cannot write sensor-data to log.");
+            exit = true;
         }
     }
 
@@ -42,15 +45,20 @@ public class SampleHandler implements Runnable
         while (true)
         {
             try
-            {          
-                saveToFile();
-                Thread.sleep(sampleRate * 1000);
+            {
+                if (!exit)
+                {
+                    saveToFile();
+                    Thread.sleep(sampleRate * 1000);
+                }
+                else
+                    return;
             }
             catch (InterruptedException e)
             {
                 System.out.println("\n" + date.format(new Date()) + " - Logging of " + sensorName + " stopped.");
                 return;
-            }         
+            }
         }
 
     }
