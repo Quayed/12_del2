@@ -12,7 +12,7 @@ public class TCP_Client {
 	private final SocketHandler socketHandler;
 
 	public TCP_Client() throws IOException {
-		socketHandler = new SocketHandler("localhost", 8001);
+		socketHandler = new SocketHandler("192.168.0.39", 8001);
 	}
 
 	public void send(String output) throws IOException {
