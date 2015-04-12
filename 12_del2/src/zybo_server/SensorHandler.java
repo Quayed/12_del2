@@ -107,8 +107,8 @@ public class SensorHandler
         if (sensorNames.size() >= sensorNumber - 1)
         {
             SampleHandler sample = new SampleHandler(sensorNames.get(sensorNumber - 1), sensorRates.get(sensorNumber - 1), sensorValues.get(sensorNumber - 1));
-            Thread ts = new Thread(sample);
-            ts.start();
+            Thread sh = new Thread(sample);
+            sh.start();
             String answer = "Successful, Sensor " + sensorNumber + " has started logging with an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds";
             System.out.println(answer);
             return answer;
