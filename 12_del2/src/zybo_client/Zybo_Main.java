@@ -134,9 +134,9 @@ public class Zybo_Main
                     {
                         TCP_Client tcp = new TCP_Client();
                         System.out.println("\nConnected on port 8001.");
-                        
+
                         getTcpMenu();
-                        
+
                         while (true)
                         {
                             try
@@ -160,7 +160,6 @@ public class Zybo_Main
                                 else if (Integer.parseInt(cmd) > 1 && Integer.parseInt(cmd) < 6)
                                 {
                                     System.out.println("\nEnter sensor-number:");
-
                                     int sensorNumber = ints.nextInt();
                                     int answer = Integer.parseInt(cmd) - 1;
                                     String output = null;
