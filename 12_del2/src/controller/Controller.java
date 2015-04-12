@@ -129,21 +129,31 @@ public class Controller {
 			if(gottenData.equals("1")){
 				this.productId = productId;
 				this.productName = productName;
+				return;
 			} 
 		}
 	}
 	
 	private void weight() throws IOException{
+		double materialWeight = 1.5;
+		double tolerance = 0.1;
+		
 		connector.rm20("Placer skål");
 		connector.getRM20().equals("1");	// verificer kald
 				
 		double tare = connector.tare();
 		System.out.println("tare: "+tare);
 		
-		connector.rm20("Læg 1.5 kg på");
+		connector.rm20("Læg "+materialWeight+" kg på");
 		connector.getRM20().equals("1");	// verificer kald
 				
 		double netto = connector.read();
+		double brutto = (netto-tare);
+		
+		if(Math.abs(brutto-materialWeight) > tolerance){
+			System.out.println("Det lååårt!");
+		}
+		
 		System.out.println("netto: "+netto);
 
 		connector.rm20("Fjern");

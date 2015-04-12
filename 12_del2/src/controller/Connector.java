@@ -36,6 +36,7 @@ public class Connector extends SocketHandler{
 	public double read() throws IOException {
 		println("S");
 		String msg = readLine();
+		System.out.println(msg);
 		if(msg.substring(8, 9).equals("-")){
 			return -Double.parseDouble(msg.substring(9, msg.length()-3));
 		}
