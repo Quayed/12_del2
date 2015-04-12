@@ -10,9 +10,9 @@ import java.util.List;
 public class SensorHandler
 {
 
-    private List<String> sensorNames = new ArrayList<>();
-    private List<Integer> sensorRates = new ArrayList<>();
-    private List<Integer> sensorValues = new ArrayList<>();
+    private final List<String> sensorNames = new ArrayList<>();
+    private final List<Integer> sensorRates = new ArrayList<>();
+    private final List<Integer> sensorValues = new ArrayList<>();
 
     public SensorHandler() throws FileNotFoundException, IOException
     {
@@ -99,26 +99,28 @@ public class SensorHandler
             return answer;
         }
         return null;
-        
+
     }
 
-    public String start(int sensorNumber)
+    public String start(int sensorNumber) throws IOException
     {
         if (sensorNames.size() >= sensorNumber - 1)
         {
-            SampleHandler sample = new SampleHandler();
-            Thread ts = new Thread();
+            SampleHandler sample = new SampleHandler(sensorNames.get(sensorNumber - 1), sensorRates.get(sensorNumber - 1), sensorValues.get(sensorNumber - 1));
+            Thread ts = new Thread(sample);
             ts.start();
-            
+            String answer = "Successful, Sensor " + sensorNumber + " has started logging with an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds";
+            System.out.println(answer);
+            return answer;
             /*
-            if (sensorRates.get(sensorNumber - 1) == 129)
-            {
-                sensorRates.set(sensorNumber - 1, 8);
-                String answer = "Successful, Sensor " + sensorNumber + " now has an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds";
-                System.out.println(answer);
-                return answer;
-            }
-            */
+             if (sensorRates.get(sensorNumber - 1) == 129)
+             {
+             sensorRates.set(sensorNumber - 1, 8);
+             String answer = "Successful, Sensor " + sensorNumber + " now has an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds";
+             System.out.println(answer);
+             return answer;
+             }
+             */
         }
         else
         {
@@ -126,17 +128,12 @@ public class SensorHandler
             System.out.println(answer);
             return answer;
         }
-        return null;
     }
-    
+
     public String list()
     {
         String answer = sensorNames.toString();
         System.out.println(answer);
         return answer;
     }
-    
-    
-    
-    
 }
