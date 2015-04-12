@@ -6,18 +6,29 @@ import java.util.Date;
 
 import shared.SocketHandler;
 
-public class TCP_Client {
+public class TCP_Client
+{
 
-	private String modifiedSentence;
-	private final SocketHandler socketHandler;
+    private String modifiedSentence;
+    private SocketHandler socketHandler;
 
-	public TCP_Client() throws IOException {
-		socketHandler = new SocketHandler("2.108.207.65", 8001);
-	}
+    public boolean connect() throws IOException
+    {
+        try
+        {
+            socketHandler = new SocketHandler("2.108.207.65", 8001);
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+        return true;
+    }
 
-	public void send(String output) throws IOException {
-		socketHandler.println(output);
-		modifiedSentence = socketHandler.readLine();
-		System.out.println("\n" + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + " - FROM SERVER: " + modifiedSentence);	
-	}
+    public void send(String output) throws IOException
+    {
+        socketHandler.println(output);
+        modifiedSentence = socketHandler.readLine();
+        System.out.println("\n" + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + " - FROM SERVER: " + modifiedSentence);
+    }
 }
