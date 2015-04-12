@@ -134,23 +134,17 @@ public class Zybo_Main
                     {
                         TCP_Client tcp = new TCP_Client();
                         System.out.println("\nConnected on port 8001.");
-
-
-                        System.out.println("\nType '1' to list sensors:\n\nType '2' to increase sample rate:\n\nType '3' to decrease sampling rate");
-                        System.out.println("\nType '4' to start logging:\n\nType '5' to stop logging:\n\nType '6' to delete sensor-log:");
-                        System.out.println("\nType '0' to return to main menu:\n\nType '?' to display help");
+                        
+                        getTcpMenu();
+                        
                         while (true)
                         {
-
-                                
                             try
-                            {                               
+                            {
                                 String cmd = key.nextLine();
                                 if (cmd.equals("?"))
                                 {
-                                    System.out.println("\nType '1' to list sensors:\n\nType '2' to increase sample rate:\n\nType '3' to decrease sampling rate");
-                                    System.out.println("\nType '4' to start logging:\n\nType '5' to stop logging:\n\nType '6' to delete sensor-log:");
-                                    System.out.println("\nType '0' to return to main menu:\n\nType '?' to display help");
+                                    getTcpMenu();
                                 }
 
                                 else if (cmd.equals("0"))
@@ -167,7 +161,8 @@ public class Zybo_Main
                                 else if (Integer.parseInt(cmd) > 1 && Integer.parseInt(cmd) < 6)
                                 {
                                     System.out.println("\nEnter sensor-number:");
-                                    int sensorNumber = ints.nextInt();                                   
+
+                                    int sensorNumber = ints.nextInt();
                                     int answer = Integer.parseInt(cmd) - 1;
                                     String output = null;
                                     switch (answer)
@@ -187,15 +182,18 @@ public class Zybo_Main
                                     }
                                     tcp.send(output + "_" + sensorNumber);
                                 }
+
                                 else if (cmd.equals("6"))
                                 {
                                     tcp.send("DELE");
                                 }
+
                                 else
                                 {
                                     System.out.println("\n" + date.format(new Date()) + " - Unknown menu.");
                                 }
                             }
+
                             catch (NumberFormatException | InputMismatchException e)
                             {
                                 //e.printStackTrace();
@@ -204,26 +202,14 @@ public class Zybo_Main
                         }
                     }
 
-                    catch (ConnectException e)
-                    {
-                        //e.printStackTrace();
-                        System.out.println("\n" + date.format(new Date()) + " - Connection timed out.");
-                    }
-
-                    catch (UnknownHostException e)
-                    {
-                        //e.printStackTrace();
-                        System.out.println("\n" + date.format(new Date()) + " - Unknown host.");
-                    }
-
-                    catch (SocketException e)
+                    catch (UnknownHostException | SocketException e)
                     {
                         //e.printStackTrace();
                         System.out.println("\n" + date.format(new Date()) + " - Network is unreachable.");
                     }
-
                 }
             }
+
             catch (NumberFormatException | InputMismatchException e)
             {
                 //e.printStackTrace();
@@ -231,4 +217,12 @@ public class Zybo_Main
             }
         }
     }
+
+    private static void getTcpMenu()
+    {
+        System.out.println("\nType '1' to list sensors:\n\nType '2' to increase sample rate:\n\nType '3' to decrease sampling rate");
+        System.out.println("\nType '4' to start logging:\n\nType '5' to stop logging:\n\nType '6' to delete sensor-log:");
+        System.out.println("\nType '0' to return to main menu:\n\nType '?' to display help");
+    }
+
 }
