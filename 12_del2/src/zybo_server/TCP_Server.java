@@ -23,47 +23,65 @@ public class TCP_Server
         SensorHandler sensor = new SensorHandler();
         String clientSentence;
         ServerSocket welcomeSocket = new ServerSocket(8001);
-        
+
         while (true)
         {
-            System.out.println("\n" + date.format(new Date()) + " - Ready for connections on port 8001");
-            try
+            Socket connectionSocket = welcomeSocket.accept();
+            socketHandler = new SocketHandler(connectionSocket);
+            System.out.println("\n" + date.format(new Date()) + " - Client connected on port 8001");
+
+            while (true)
             {
-
-                Socket connectionSocket = welcomeSocket.accept();
-
-                socketHandler = new SocketHandler(connectionSocket);
-
-                System.out.println("\n" + date.format(new Date()) + " - Client connected on port 8001");
-
-                clientSentence = socketHandler.readLine();
-
-                System.out.println("\n" + date.format(new Date()) + " - Received: " + clientSentence);
-
-                if (clientSentence.length() == 6)
+                System.out.println("\n" + date.format(new Date()) + " - Ready for connections on port 8001");
+                try
                 {
-                    if (clientSentence.startsWith("INCR"))
+
+                    clientSentence = socketHandler.readLine();
+
+                    System.out.println("\n" + date.format(new Date()) + " - Received: " + clientSentence);
+
+                    if (clientSentence.length() == 6)
                     {
-                        int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
-                        socketHandler.println(sensor.increase(sensorNumber));
+                        if (clientSentence.startsWith("INCR"))
+                        {
+                            int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
+                            socketHandler.println(sensor.increase(sensorNumber));
+                        }
+
+                        else if (clientSentence.startsWith("DECR"))
+                        {
+                            int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
+                            socketHandler.println(sensor.decrease(sensorNumber));
+                        }
+
+                        else if (clientSentence.startsWith("STOP"))
+                        {
+                            int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
+                            socketHandler.println(sensor.stop(sensorNumber));
+                        }
+
+                        else if (clientSentence.startsWith("STAR"))
+                        {
+                            int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
+                            socketHandler.println(sensor.start(sensorNumber));
+                        }
+
+                        else
+                        {
+                            String answer = "\n" + date.format(new Date()) + " - Unknown command!";
+                            System.out.println(answer);
+                            socketHandler.println("Unknown command.");
+                        }
+
+                    }
+                    else if (clientSentence.equals("LIST"))
+                    {
+                        socketHandler.println(sensor.list());
                     }
 
-                    else if (clientSentence.startsWith("DECR"))
+                    else if (clientSentence.contains("DELE"))
                     {
-                        int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
-                        socketHandler.println(sensor.decrease(sensorNumber));
-                    }
-
-                    else if (clientSentence.startsWith("STOP"))
-                    {
-                        int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
-                        socketHandler.println(sensor.stop(sensorNumber));
-                    }
-
-                    else if (clientSentence.startsWith("STAR"))
-                    {
-                        int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
-                        socketHandler.println(sensor.start(sensorNumber));
+                        socketHandler.println(sensor.deleteLog());
                     }
 
                     else
@@ -72,47 +90,30 @@ public class TCP_Server
                         System.out.println(answer);
                         socketHandler.println("Unknown command.");
                     }
-
                 }
-                else if (clientSentence.equals("LIST"))
+                catch (BindException e)
                 {
-                    socketHandler.println(sensor.list());
+                    System.out.println("\n" + date.format(new Date()) + " - Address already in use. Exiting.");
+                    System.exit(-1);
+                    //e.printStackTrace();                
                 }
-
-                else if (clientSentence.contains("DELE"))
+                catch (FileNotFoundException e)
                 {
-                    socketHandler.println(sensor.deleteLog());
+                    System.out.println("\n" + date.format(new Date()) + " - Cannot read sensor-file. Exiting.");
+                    System.exit(-1);
+                    //e.printStackTrace();                
                 }
-
-                else
+                catch (SocketException e)
                 {
-                    String answer = "\n" + date.format(new Date()) + " - Unknown command!";
-                    System.out.println(answer);
-                    socketHandler.println("Unknown command.");
+                    //e.printStackTrace();
+                    System.out.println("\n" + date.format(new Date()) + " - Client disconnected.");
                 }
-            }
-            catch (BindException e)
-            {
-                System.out.println("\n" + date.format(new Date()) + " - Address already in use. Exiting.");
-                System.exit(-1);
-                //e.printStackTrace();                
-            }
-            catch (FileNotFoundException e)
-            {
-                System.out.println("\n" + date.format(new Date()) + " - Cannot read sensor-file. Exiting.");
-                System.exit(-1);
-                //e.printStackTrace();                
-            }
-            catch (SocketException e)
-            {
-                //e.printStackTrace();
-                System.out.println("\n" + date.format(new Date()) + " - Client disconnected.");
-            }
-            catch (IndexOutOfBoundsException e)
-            {
-                System.out.println("\n" + date.format(new Date()) + " - Sensor doesn't exist.");
-                socketHandler.println("Unsuccessful, no sensor with that value. Try to print list of sensors.");
-                //e.printStackTrace();                
+                catch (IndexOutOfBoundsException e)
+                {
+                    System.out.println("\n" + date.format(new Date()) + " - Sensor doesn't exist.");
+                    socketHandler.println("Unsuccessful, no sensor with that value. Try to print list of sensors.");
+                    //e.printStackTrace();                
+                }
             }
         }
     }
