@@ -14,7 +14,7 @@ public class SampleHandler implements Runnable
     private final int sensorNr;
     private final int sampleRate;
     private final int sampleValue;
-    private volatile String exit;
+    private String exit;
 
     public SampleHandler(String name, int nr, int rate, int value)
     {
@@ -36,7 +36,7 @@ public class SampleHandler implements Runnable
         }
         catch (IOException e)
         {
-            System.out.println("\n" + date.format(new Date()) + " - Cannot write sensor-data.");
+            System.out.println("\n" + date.format(new Date()) + " - Cannot write sensor-data to log.");
         }
     }
 
@@ -63,6 +63,7 @@ public class SampleHandler implements Runnable
             }
             catch (InterruptedException e)
             {
+                System.out.println("\n" + date.format(new Date()) + " - Logging of " + sensorName + " stopped.");
                 return;
             }
         }

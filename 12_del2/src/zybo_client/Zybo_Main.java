@@ -136,17 +136,18 @@ public class Zybo_Main
                     key.nextLine();
 
                     System.out.println("\nType '1' to list sensors:\n\nType '2' to increase sample rate:\n\nType '3' to decrease sampling rate");
-                    System.out.println("\nType '4' to start logging:\n\nType '5' to stop logging:\n\nType '0' to return to main menu:\n\nType '?' to display help");
-
+                    System.out.println("\nType '4' to start logging:\n\nType '5' to stop logging:\n\nType '6' to delete sensor-log:");
+                    System.out.println("\nType '0' to return to main menu:\n\nType '?' to display help");
                     while (true)
-                    {                       
+                    {
                         try
                         {
                             String cmd = key.nextLine();
                             if (cmd.equals("?"))
                             {
                                 System.out.println("\nType '1' to list sensors:\n\nType '2' to increase sample rate:\n\nType '3' to decrease sampling rate");
-                                System.out.println("\nType '4' to start logging:\n\nType '5' to stop logging:\n\nType '0' to return to main menu:\n\nType '?' to display help");
+                                System.out.println("\nType '4' to start logging:\n\nType '5' to stop logging:\n\nType '6' to delete sensor-log:");
+                                System.out.println("\nType '0' to return to main menu:\n\nType '?' to display help");
                             }
 
                             else if (cmd.equals("0"))
@@ -159,7 +160,7 @@ public class Zybo_Main
                             {
                                 tcp.send("LIST");
                             }
-                            
+
                             else if (Integer.parseInt(cmd) > 1 && Integer.parseInt(cmd) < 6)
                             {
                                 System.out.println("\nEnter sensor-number:");
@@ -183,6 +184,10 @@ public class Zybo_Main
                                         break;
                                 }
                                 tcp.send(output + "_" + sensorNumber);
+                            }
+                            else if (cmd.equals("6"))
+                            {
+                                tcp.send("DELE");
                             }
                         }
                         catch (NumberFormatException e)

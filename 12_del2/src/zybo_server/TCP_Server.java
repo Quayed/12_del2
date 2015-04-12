@@ -13,6 +13,7 @@ import shared.SocketHandler;
 
 public class TCP_Server
 {
+
     private final SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     SocketHandler socketHandler;
@@ -83,6 +84,12 @@ public class TCP_Server
                 {
                     socketHandler.println(sensor.list());
                 }
+
+                else if (clientSentence.contains("DELE"))
+                {
+                    socketHandler.println(sensor.deleteLog());
+                }
+
                 else
                 {
                     unknownCommand();
@@ -103,8 +110,8 @@ public class TCP_Server
         }
         catch (SocketException e)
         {
-            System.out.println("\n" + date.format(new Date()) + " - Client disconnected.");                
-        }        
+            System.out.println("\n" + date.format(new Date()) + " - Client disconnected.");
+        }
     }
 
     private void unknownCommand() throws IOException

@@ -3,12 +3,11 @@ package zybo_server;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class SensorHandler
 {
@@ -16,7 +15,7 @@ public class SensorHandler
     private final List<String> sensorNames = new ArrayList<>();
     private final List<Integer> sensorRates = new ArrayList<>();
     private final List<Integer> sensorValues = new ArrayList<>();
-    private volatile SampleHandler sample;
+    private SampleHandler sample;
 
     public SensorHandler() throws FileNotFoundException, IOException
     {
@@ -132,6 +131,16 @@ public class SensorHandler
     public String list()
     {
         String answer = sensorNames.toString();
+        System.out.println(answer);
+        return answer;
+    }
+
+    public String deleteLog() throws IOException
+    {
+        FileWriter file = new FileWriter("tmp/SensorData.log");
+        PrintWriter out = new PrintWriter(file);
+        out.close();
+        String answer = "Log has been wiped.";
         System.out.println(answer);
         return answer;
     }
