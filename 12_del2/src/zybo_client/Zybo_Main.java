@@ -50,7 +50,7 @@ public class Zybo_Main
                         {
                             try
                             {
-                                System.out.println("\n" + date.format(new Date()) + " - Connecting to server...");
+                                System.out.println("\n" + date.format(new Date()) + " - Connecting to server on port 21...");
 
                                 if (FTP.connect(user, pass))
                                 {
