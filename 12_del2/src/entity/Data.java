@@ -5,12 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import entity.dto.FormulaDTO;
+
 public class Data implements IData {
 
 	private BufferedReader reader;
 
 	@Override
-	public String findMaterial(int productId) {
+	public String getMaterialBatch(int productId) {
 		String productName = null;
 		
 		try {
@@ -42,6 +44,17 @@ public class Data implements IData {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public String getOperator(int oprID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public FormulaDTO getFormula(int formulaId) {
+		return new FormulaDTO(formulaId, "Eksempel");
 	}
 
 }

@@ -70,5 +70,22 @@ public class Connector extends SocketHandler{
 		println("DW");
 	}
 
+	public int getAnId(String msg) throws IOException{
+		rm20(msg);
+		try{
+			return Integer.parseInt(getRM20());
+		} catch (NumberFormatException e){
+			return 0;
+		}
+	}
+	
+	public boolean confirm(String msg) throws IOException{
+		rm20(msg);
+		if(getRM20().equals("0")){
+			return false;
+		}
+		return true;
+	}
+
 	
 }

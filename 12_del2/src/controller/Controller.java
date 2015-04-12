@@ -5,8 +5,20 @@ import java.net.UnknownHostException;
 
 import entity.Data;
 import entity.IData;
+import entity.dto.FormulaCompDTO;
+import entity.dto.FormulaDTO;
+import entity.dto.MaterialBatchDTO;
+import entity.dto.OperatorDTO;
 
 public class Controller {
+
+	public class RestartException extends Exception {
+
+	}
+	
+	private void restart() throws RestartException{
+		throw new RestartException();
+	}
 
 	private IData data = new Data();
 	
@@ -15,9 +27,10 @@ public class Controller {
 
 	private Connector connector;
 	
-	private int currentOperator;
-	private int productId;
-	private String productName;
+	private OperatorDTO currentOperator;
+	private MaterialBatchDTO materialBatch;
+
+	private FormulaDTO formula;
 	
 	public Controller() {
 		this(DEFAULT_HOST, DEFAULT_PORT);
@@ -50,88 +63,65 @@ public class Controller {
 		// do a command, because the first command do not always work
 		connector.println("S");
 		System.out.println(connector.readLine());
-
-		getOperatorId();
-		getProduct();
+		
+		getOperator();
+		
+		getFormula();
+		
+		getMaterialBatch();
 		weight();
 	}
 
-	private void getOperatorId() throws IOException{
-		boolean isNotANumber = false;
-		int operator = 0;
-		do {
-			if(isNotANumber){
-				connector.rm20("Ikke en int, indtast nr.");
-			} else{
-				connector.rm20("Indtast nr");
+	private void getOperator() throws IOException{
+
+		int oprID = connector.getAnId("oprNr?");
+		OperatorDTO operator = data.getOperator(oprID);
+		
+		do{
+		
+			while(oprID == 0 || operator == null){
+				oprID = connector.getAnId("Ugyldig, oprNr?");
+				operator = data.getOperator(oprID);
 			}
-			try{
-				
-				String gottenData = connector.getRM20();
-				
-				operator = Integer.parseInt(gottenData);
-				
-				System.out.println(operator);
-				
-				isNotANumber = false;
-			} catch (NumberFormatException e){
-				isNotANumber = true;
-			}
-		}while(isNotANumber);
+		
+		} while(!connector.confirm(operator + "?"));
 		
 		currentOperator = operator;
+		
+	}
 
-		// Operator skal måske verificeres (ID slås op)
+	private void getFormula() {
+		this.formula = data.getFormula(1);
 	}
 	
-	private void getProduct() throws IOException{
-		boolean isNotANumber = false;
-		boolean notCorrect = false;
-		int productId = 0;
-		String productName = "";
-		while(true){
-			do {
-				if(isNotANumber){
-					// Ikke en int,  husk det er max 24 karakterer
-					connector.rm20("Indtast raavare nr.");
-				} else if(notCorrect){
-					// Ingen raavare, husk det er max 24 karakterer
-					connector.rm20("Indtast raavare nr.");
-				} else{
-					connector.rm20("Indtast raavare nr.");
-				}
-				try{
-					String gottenData = connector.getRM20();
-					productId = Integer.parseInt(gottenData);
-					System.out.println(productId);
-					isNotANumber = false;
-				} catch (NumberFormatException e){
-					isNotANumber = true;
-					continue;
-				}
-				
-				productName = data.findMaterial(productId);
-				if(productName == null){
-					notCorrect = true;
+	private void getMaterialBatch() throws IOException{
+		int materialBatchId;
+		MaterialBatchDTO materialBatch;
+		FormulaCompDTO formulaComp = null;
+		do{
+			
+			materialBatchId = connector.getAnId("materialBatch?");
+			materialBatch = data.getMaterialBatch(materialBatchId);
+			
+			while(true){
+				if(materialBatchId == 0 || materialBatch == null){
+					materialBatchId = connector.getAnId("Ugyldig, materialBatch?");
+					materialBatch = data.getMaterialBatch(materialBatchId);
 				}
 				else{
-					System.out.println("Product found: "+productName);
-					notCorrect = false;
+					if(formulaComp == null){
+						materialBatchId = connector.getAnId("Ugyldig, materialBatch?");
+						materialBatch = data.getMaterialBatch(materialBatchId);
+					}
+					else
+						break;	
 				}
-								
-			} while(isNotANumber || notCorrect);
+			}
 			
-			connector.rm20(productName + "? 1/0");
-
-			String gottenData = connector.getRM20();
-			
-			System.out.println(gottenData);
-			if(gottenData.equals("1")){
-				this.productId = productId;
-				this.productName = productName;
-				return;
-			} 
-		}
+		} while(!connector.confirm("Material id: "+materialBatch.getmaterialID() + "?"));
+		
+		this.materialBatch = materialBatch;
+		
 	}
 	
 	private void weight() throws IOException{
