@@ -11,18 +11,14 @@ public class SampleHandler implements Runnable
 
     private final SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     private final String sensorName;
-    private final int sensorNr;
     private final int sampleRate;
     private final int sampleValue;
-    private String exit;
 
     public SampleHandler(String name, int nr, int rate, int value)
     {
         sensorName = name;
-        sensorNr = nr;
         sampleRate = rate;
         sampleValue = value;
-        exit = "false";
     }
 
     public void saveToFile()
@@ -40,12 +36,6 @@ public class SampleHandler implements Runnable
         }
     }
 
-    public String Exit(int sensor)
-    {
-        exit = sensorNr + "true";
-        return exit;
-    }
-
     @Override
     public void run()
     {
@@ -53,11 +43,6 @@ public class SampleHandler implements Runnable
         {
             try
             {          
-                if (exit.equals(sensorNr + "true"))
-                {
-                    System.out.println("\n" + date.format(new Date()) + " - Logging of " + sensorName + " stopped.");
-                    return;
-                }
                 saveToFile();
                 Thread.sleep(sampleRate * 1000);
             }
@@ -65,7 +50,7 @@ public class SampleHandler implements Runnable
             {
                 System.out.println("\n" + date.format(new Date()) + " - Logging of " + sensorName + " stopped.");
                 return;
-            }
+            }         
         }
 
     }
