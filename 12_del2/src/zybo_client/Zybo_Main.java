@@ -23,6 +23,7 @@ public class Zybo_Main
         java.util.Scanner key = new java.util.Scanner(System.in);
         java.util.Scanner ints = new java.util.Scanner(System.in);
         FTP_Client FTP = new FTP_Client();
+        TCP_Client tcp = new TCP_Client();        
         while (true)
         {
             connected = false;
@@ -132,7 +133,7 @@ public class Zybo_Main
                 {
                     try
                     {
-                        TCP_Client tcp = new TCP_Client();
+                        
                         System.out.println("\nConnected on port 8001.");
 
                         getTcpMenu();
