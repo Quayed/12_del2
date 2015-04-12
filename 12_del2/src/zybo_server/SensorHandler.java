@@ -137,7 +137,7 @@ public class SensorHandler
 
     public String deleteLog() throws IOException
     {
-        FileWriter file = new FileWriter("tmp/SensorData.log");
+        FileWriter file = new FileWriter("SensorData.log");
         PrintWriter out = new PrintWriter(file);
         out.close();
         String answer = "Log has been wiped.";
