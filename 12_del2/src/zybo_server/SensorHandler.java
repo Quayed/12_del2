@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,16 +104,23 @@ public class SensorHandler
         return answer;
     }
 
-    public String start(int sensorNumber) throws IOException
+    public String start(int sensorNumber) throws IOException, InterruptedException
     {
         if (sensorNames.size() >= sensorNumber - 1)
         {
             SampleHandler sample = new SampleHandler(sensorNames.get(sensorNumber - 1), sensorRates.get(sensorNumber - 1), sensorValues.get(sensorNumber - 1));
             Thread sh = new Thread(sample, sensorNumber + "");
             sh.start();
-            String answer = "Successful, Sensor " + sensorNumber + " has started logging with an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds";
-            System.out.println(answer);
-            return answer;
+            System.out.println(sh.getState().toString());
+                            /*    for (Thread t : Thread.getAllStackTraces().keySet())
+            {
+                if (t.getName().equals(sensorNumber + ""))
+                {
+                    String answer = "Successful, Sensor " + sensorNumber + " has started logging with an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds";
+                    System.out.println(answer);
+                    return answer;
+                }
+            }*/
         }
         else
         {
@@ -120,6 +128,7 @@ public class SensorHandler
             System.out.println(answer);
             return answer;
         }
+        return null;
     }
 
     public String list()

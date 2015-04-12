@@ -24,17 +24,15 @@ public class TCP_Server
         String clientSentence;
         ServerSocket welcomeSocket = new ServerSocket(8001);
         System.out.println("\n" + date.format(new Date()) + " - Ready for connections on port 8001");
-        
         while (true)
         {
-            Socket connectionSocket = welcomeSocket.accept();
-            socketHandler = new SocketHandler(connectionSocket);
-            System.out.println("\n" + date.format(new Date()) + " - Client connected on port 8001");
-
-            while (true)
+            try
             {
-                
-                try
+                Socket connectionSocket = welcomeSocket.accept();
+                socketHandler = new SocketHandler(connectionSocket);
+                System.out.println("\n" + date.format(new Date()) + " - Client connected on port 8001");
+
+                while (true)
                 {
 
                     clientSentence = socketHandler.readLine();
@@ -91,30 +89,32 @@ public class TCP_Server
                         System.out.println(answer);
                         socketHandler.println("Unknown command.");
                     }
+
                 }
-                catch (BindException e)
-                {
-                    System.out.println("\n" + date.format(new Date()) + " - Address already in use. Exiting.");
-                    System.exit(-1);
-                    //e.printStackTrace();                
-                }
-                catch (FileNotFoundException e)
-                {
-                    System.out.println("\n" + date.format(new Date()) + " - Cannot read sensor-file. Exiting.");
-                    System.exit(-1);
-                    //e.printStackTrace();                
-                }
-                catch (SocketException e)
-                {
-                    //e.printStackTrace();
-                    System.out.println("\n" + date.format(new Date()) + " - Client disconnected.");
-                }
-                catch (IndexOutOfBoundsException e)
-                {
-                    System.out.println("\n" + date.format(new Date()) + " - Sensor doesn't exist.");
-                    socketHandler.println("Unsuccessful, no sensor with that value. Try to print list of sensors.");
-                    //e.printStackTrace();                
-                }
+
+            }
+            catch (BindException e)
+            {
+                System.out.println("\n" + date.format(new Date()) + " - Address already in use. Exiting.");
+                System.exit(-1);
+                //e.printStackTrace();                
+            }
+            catch (FileNotFoundException e)
+            {
+                System.out.println("\n" + date.format(new Date()) + " - Cannot read sensor-file. Exiting.");
+                System.exit(-1);
+                //e.printStackTrace();                
+            }
+            catch (SocketException e)
+            {
+                //e.printStackTrace();
+                System.out.println("\n" + date.format(new Date()) + " - Client disconnected.");
+            }
+            catch (IndexOutOfBoundsException e)
+            {
+                System.out.println("\n" + date.format(new Date()) + " - Sensor doesn't exist.");
+                socketHandler.println("Unsuccessful, no sensor with that value. Try to print list of sensors.");
+                //e.printStackTrace();                
             }
         }
     }
