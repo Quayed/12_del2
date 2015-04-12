@@ -98,7 +98,7 @@ public class SensorHandler
                 }
             }
         }
-        String answer = "Unsuccessful, no sensor with that value. Try to print list of sensors.";
+        String answer = "Unsuccessful, no active sensor with that value.";
         System.out.println(answer);
         return answer;
     }
