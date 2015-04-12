@@ -150,8 +150,8 @@ public class Controller {
 		double netto = connector.read();
 		double brutto = (netto-tare);
 		
-		if(Math.abs(brutto-materialWeight) > tolerance){
-			System.out.println("Det lååårt!");
+		if(Math.abs(brutto-materialWeight) < tolerance){
+			// Det går skide godt
 		}
 		
 		System.out.println("netto: "+netto);
@@ -162,11 +162,10 @@ public class Controller {
 		double tare2 = connector.tare();
 		System.out.println("tare: "+tare2);
 
-		// Registrerer minus brutto (inden for en variation på ??)
-		
-		
-		// Udskriv ”BRUTTO KONTROL OK” hvis dette er tilfældet. Ellers ?
-		
+		if(tare2 < tolerance){
+			connector.rm20("BRUTTO KONTROL OK");
+			connector.getRM20();
+		}
 		
 		// Afskriv mængde på lager, og opdatér historik 
 
