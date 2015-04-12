@@ -107,7 +107,7 @@ public class SensorHandler
     {
         if (sensorNames.size() >= sensorNumber - 1)
         {
-            SampleHandler sample = new SampleHandler(sensorNames.get(sensorNumber - 1), sensorNumber, sensorRates.get(sensorNumber - 1), sensorValues.get(sensorNumber - 1));
+            SampleHandler sample = new SampleHandler(sensorNames.get(sensorNumber - 1), sensorRates.get(sensorNumber - 1), sensorValues.get(sensorNumber - 1));
             Thread sh = new Thread(sample, sensorNumber + "");
             sh.start();
             String answer = "Successful, Sensor " + sensorNumber + " has started logging with an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds";
@@ -131,7 +131,7 @@ public class SensorHandler
 
     public String deleteLog() throws IOException
     {
-        FileWriter file = new FileWriter("SensorData.log");
+        FileWriter file = new FileWriter("/home/xilinx/SensorData.log");
         PrintWriter out = new PrintWriter(file);
         out.close();
         String answer = "Log has been wiped.";
