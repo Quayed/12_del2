@@ -5,7 +5,7 @@ import java.io.IOException;
 import entity.dto.MaterialDTO;
 import entity.dto.OperatorDTO;
 
-public interface IData {
+public interface IDAO {
 
 	OperatorDTO getOperator(int oprID);
 

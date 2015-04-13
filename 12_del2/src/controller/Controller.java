@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-import entity.Data;
-import entity.IData;
+import entity.DAO;
+import entity.IDAO;
 import entity.dto.MaterialDTO;
 import entity.dto.OperatorDTO;
 
@@ -14,7 +14,7 @@ public class Controller {
 	private static final String DEFAULT_HOST = "localhost";
 	private static final int DEFAULT_PORT = 8000;
 	
-	private IData data = new Data();
+	private IDAO dao = new DAO();
 	private Connector connector;
 
 	private OperatorDTO currentOperator;
@@ -73,13 +73,13 @@ public class Controller {
 	private void getOperator() throws IOException, RestartException {
 
 		int oprID = connector.getAnId("oprNr?");
-		OperatorDTO operator = data.getOperator(oprID);
+		OperatorDTO operator = dao.getOperator(oprID);
 
 		do {
 
 			while (oprID == 0 || operator == null) {
 				oprID = connector.getAnId("Ugyldig, oprNr?");
-				operator = data.getOperator(oprID);
+				operator = dao.getOperator(oprID);
 			}
 
 		} while (!connector.confirm(operator.getOprName() + "?"));
@@ -96,7 +96,7 @@ public class Controller {
 			materialId = connector.getAnId("material?");
 
 			while (true) {
-				material = data.getMaterialBatch(materialId);
+				material = dao.getMaterialBatch(materialId);
 
 				if (materialId == 0 || material == null) {
 
@@ -151,7 +151,7 @@ public class Controller {
 			connector.getRM20();
 		}
 
-		data.updateMaterial(material.getMaterialID(), netto,
+		dao.updateMaterial(material.getMaterialID(), netto,
 				currentOperator.getOprID());
 	}
 }
