@@ -54,4 +54,12 @@ public class SocketHandler {
 		return in;
 	}
 
+	public void disconnect() {
+		try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
