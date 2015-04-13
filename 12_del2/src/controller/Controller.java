@@ -11,11 +11,7 @@ import entity.dto.MaterialDTO;
 import entity.dto.OperatorDTO;
 
 public class Controller {
-
-	public class RestartException extends Exception {
-
-	}
-
+	
 	private void restart() throws RestartException {
 		throw new RestartException();
 	}
@@ -63,23 +59,28 @@ public class Controller {
 		// do a command, because the first command do not always work
 		connector.println("S");
 		System.out.println(connector.readLine());
-
-		getOperator();
-
-		while(true){
-		
-			List<FormulaCompDTO> formulaComps = data.getFormulaCompList();
+		boolean running = false;
+		do{
+			try {
+				getOperator();
 			
-			for (FormulaCompDTO formulaComp : formulaComps) {
-				this.formulaComp = formulaComp;
-				getMaterialBatch();
-				weight();
+				while(true){
+				
+					List<FormulaCompDTO> formulaComps = data.getFormulaCompList();
+					
+					for (FormulaCompDTO formulaComp : formulaComps) {
+						this.formulaComp = formulaComp;
+						getMaterialBatch();
+						weight();
+					}
+				}
+			} catch (RestartException e) {
+				running = true;
 			}
-		}
-
+		} while(running);
 	}
 
-	private void getOperator() throws IOException {
+	private void getOperator() throws IOException, RestartException {
 
 		int oprID = connector.getAnId("oprNr?");
 		OperatorDTO operator = data.getOperator(oprID);
@@ -97,7 +98,7 @@ public class Controller {
 
 	}
 
-	private void getMaterialBatch() throws IOException {
+	private void getMaterialBatch() throws IOException, RestartException {
 		int materialId;
 		MaterialDTO material;
 		do {
@@ -124,7 +125,7 @@ public class Controller {
 
 	}
 
-	private void weight() throws IOException {
+	private void weight() throws IOException, RestartException {
 		double
 			materialWeight = formulaComp.getNomNetto(),
 			tolerance = formulaComp.getTolerance(),
