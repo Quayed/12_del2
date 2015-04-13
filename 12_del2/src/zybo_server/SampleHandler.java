@@ -28,16 +28,18 @@ public class SampleHandler implements Runnable
     {
         try
         {
-            if (new File("/home/xilinx/SensorData.log").exists())
+            if (new File("SensorData.log").exists())
             {
-                FileWriter file = new FileWriter("/home/xilinx/SensorData.log", true);
+                //FileWriter file = new FileWriter("/home/xilinx/SensorData.log", true);
+                FileWriter file = new FileWriter("SensorData.log", true);
                 PrintWriter out = new PrintWriter(file);
                 out.println(date.format(new Date()) + " - Value of " + sensorName + " = " + sampleValue + " (" + sampleRate + " sec. sample rate)");
                 out.close();
             }
             else
             {
-                FileWriter file = new FileWriter("/home/xilinx/SensorData.log");
+                //FileWriter file = new FileWriter("/home/xilinx/SensorData.log");
+                FileWriter file = new FileWriter("SensorData.log");
                 PrintWriter out = new PrintWriter(file);
                 out.println(date.format(new Date()) + " - Value of " + sensorName + " = " + sampleValue + " (" + sampleRate + " sec. sample rate)");
                 out.close();
@@ -50,6 +52,10 @@ public class SampleHandler implements Runnable
         }
     }
 
+ 
+    
+    
+    
     @Override
     public void run()
     {
@@ -75,4 +81,6 @@ public class SampleHandler implements Runnable
         }
 
     }
+
+
 }
