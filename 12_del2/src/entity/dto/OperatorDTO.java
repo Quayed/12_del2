@@ -1,8 +1,8 @@
 package entity.dto;
 
 public class OperatorDTO {
-	int oprID;
-	String oprName;
+	private int oprID;
+	private String oprName;
 
 	public OperatorDTO(int oprID, String oprName) {
 		this.oprID = oprID;

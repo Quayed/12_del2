@@ -9,7 +9,7 @@ import shared.SocketHandler;
 
 public class FTP_Client {
 
-	FTPHandler ftpHandler;
+	private FTPHandler ftpHandler;
 
 	public boolean connect(String user, String pass) throws IOException, InterruptedException {
 		
@@ -72,5 +72,9 @@ public class FTP_Client {
 		socket.disconnect();
 		ftpHandler.readLine();
 		return sb.toString();
+	}
+	
+	public String send(String msg) throws IOException{
+		return ftpHandler.send(msg);
 	}
 }

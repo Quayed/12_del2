@@ -91,7 +91,7 @@ public class Zybo_Main {
 						} else if (type == 3) {
 							System.out.println("\nEnter filename:\n");
 							String name = key.nextLine();
-							System.out.println("\n" + date.format(new Date()) + " - " + FTP.ftpHandler.send("DELE " + name));
+							System.out.println("\n" + date.format(new Date()) + " - " + FTP.send("DELE " + name));
 						} else if (type == 0) {
 							System.out.println("\n" + date.format(new Date()) + " - Disconnected");
 							break;

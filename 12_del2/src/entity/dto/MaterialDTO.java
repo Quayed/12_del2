@@ -1,9 +1,9 @@
 package entity.dto;
 
 public class MaterialDTO {
-	int materialID;
-	String materialName;
-	double quantity;
+	private int materialID;
+	private String materialName;
+	private double quantity;
 
 	public MaterialDTO(int materialID, String materialName, double quantity) {
 		this.materialID = materialID;
