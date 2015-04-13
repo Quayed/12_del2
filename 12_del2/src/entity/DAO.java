@@ -87,11 +87,15 @@ public class DAO implements IDAO {
 		}
 		writer.close();
 		
+		updateLog(getMaterialID, netto, oprID, materialLeft);
+	}
+
+	private void updateLog(int materialID, double netto, int oprID, double materialLeft) throws IOException{
 		DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		String currentDate = String.valueOf(format.format(new Date()));
 		writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("log.txt"), "utf-8"));
-		writer.append(currentDate + "," + String.valueOf(oprID) + "," + String.valueOf(getMaterialID) + "," + String.valueOf(netto) + "," + String.valueOf(materialLeft));
+		writer.append(currentDate + "," + String.valueOf(oprID) + "," + String.valueOf(materialID) + "," + String.valueOf(netto) + "," + String.valueOf(materialLeft));
 		writer.close();
 	}
-
+	
 }
