@@ -5,7 +5,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class SocketHandler {
 
@@ -13,7 +12,7 @@ public class SocketHandler {
 	private final BufferedReader in;
 	private final DataOutputStream out;
 
-	public SocketHandler(String host, int port) throws IOException, UnknownHostException {
+	public SocketHandler(String host, int port) throws IOException {
 		this(new Socket(host, port));
 	}
 
@@ -41,8 +40,8 @@ public class SocketHandler {
 
 	public final void disconnect() {
 		try {
-			in.close();
 			out.close();
+			in.close();
 			socket.close();
 		} catch (IOException e) {
 		}
