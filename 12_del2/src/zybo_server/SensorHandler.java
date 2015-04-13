@@ -46,7 +46,7 @@ public class SensorHandler
     {
         if (sensorNames.size() >= sensorNumber - 1)
         {
-            if (sensorRates.get(sensorNumber - 1) <= 64)
+            if (sensorRates.get(sensorNumber - 1) <= 2048)
             {
                 sensorRates.set(sensorNumber - 1, (2 * sensorRates.get(sensorNumber - 1)));
                 String answer = "Successful, Sensor " + sensorNumber + " now has an update rate of " + sensorRates.get(sensorNumber - 1) + " Seconds";
