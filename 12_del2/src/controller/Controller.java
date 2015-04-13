@@ -11,11 +11,6 @@ import entity.dto.MaterialDTO;
 import entity.dto.OperatorDTO;
 
 public class Controller {
-	
-	private void restart() throws RestartException {
-		throw new RestartException();
-	}
-
 	private IData data = new Data();
 
 	private static final String DEFAULT_HOST = "localhost";
@@ -63,17 +58,9 @@ public class Controller {
 		do{
 			try {
 				getOperator();
-			
-				while(true){
+				getMaterialBatch();
+				weight();
 				
-					List<FormulaCompDTO> formulaComps = data.getFormulaCompList();
-					
-					for (FormulaCompDTO formulaComp : formulaComps) {
-						this.formulaComp = formulaComp;
-						getMaterialBatch();
-						weight();
-					}
-				}
 			} catch (RestartException e) {
 				running = true;
 			}
@@ -127,8 +114,8 @@ public class Controller {
 
 	private void weight() throws IOException, RestartException {
 		double
-			materialWeight = formulaComp.getNomNetto(),
-			tolerance = formulaComp.getTolerance(),
+			materialWeight = 1, // Kunne hentes fra en database
+			tolerance = 0.1, // kunne hentes fra en database
 			tare,
 			netto,
 			gross,
@@ -168,7 +155,6 @@ public class Controller {
 			connector.getRM20();
 		}
 				
-		data.updateMaterial(material.getMaterialID(), tare, netto, currentOperator.getOprID());
-
+		data.updateMaterial(material.getMaterialID(), netto, currentOperator.getOprID());
 	}
 }

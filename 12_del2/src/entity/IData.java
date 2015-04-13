@@ -1,5 +1,6 @@
 package entity;
 
+import java.io.IOException;
 import java.util.List;
 
 import entity.dto.FormulaCompDTO;
@@ -10,10 +11,8 @@ public interface IData {
 
 	OperatorDTO getOperator(int oprID);
 
-	List<FormulaCompDTO> getFormulaCompList();
-
 	MaterialDTO getMaterialBatch(int materialId);
 
-	void updateMaterial(int getmaterialID, double tare, double netto, int oprID);
+	void updateMaterial(int getmaterialID, double netto, int oprID) throws IOException;
 
 }
