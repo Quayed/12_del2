@@ -26,10 +26,13 @@ public class Connector extends SocketHandler{
 		return super.readLine().trim();
 	}
 
-	public String getRM20() throws IOException {
+	public String getRM20() throws IOException, RestartException {
 		System.out.println(readLine());
 		String msg = readLine();
 		System.out.println(msg);
+		if(msg.substring(8, msg.length()-1) == "00"){
+			throw new RestartException();
+		}
 		return msg.substring(8, msg.length()-1);
 	}
 	
@@ -70,7 +73,7 @@ public class Connector extends SocketHandler{
 		println("DW");
 	}
 
-	public int getAnId(String msg) throws IOException{
+	public int getAnId(String msg) throws IOException, RestartException{
 		rm20(msg);
 		try{
 			return Integer.parseInt(getRM20());
@@ -79,7 +82,7 @@ public class Connector extends SocketHandler{
 		}
 	}
 	
-	public boolean confirm(String msg) throws IOException{
+	public boolean confirm(String msg) throws IOException, RestartException{
 		rm20(msg);
 		if(getRM20().equals("0")){
 			return false;
