@@ -13,7 +13,7 @@ import java.util.InputMismatchException;
 
 public class Zybo_Main {
 
-	public Zybo_Main() throws IOException, InterruptedException, ConnectException, UnknownHostException, SocketException{
+	private Zybo_Main() throws IOException, InterruptedException, ConnectException, UnknownHostException, SocketException{
 		boolean connected;
 		String pass;
 		String user;
