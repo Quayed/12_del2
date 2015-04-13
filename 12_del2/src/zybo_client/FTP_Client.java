@@ -69,7 +69,7 @@ public class FTP_Client {
 			input = socket.readLine();
 		}
 
-		socket.close();
+		socket.disconnect();
 		ftpHandler.readLine();
 		return sb.toString();
 	}
