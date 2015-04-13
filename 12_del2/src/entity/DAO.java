@@ -15,7 +15,7 @@ import java.util.Date;
 import entity.dto.MaterialDTO;
 import entity.dto.OperatorDTO;
 
-public class Data implements IData {
+public class DAO implements IDAO {
 
 	private BufferedReader reader;
 	private BufferedWriter writer;
