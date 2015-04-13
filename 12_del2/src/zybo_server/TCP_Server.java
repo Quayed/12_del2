@@ -37,46 +37,7 @@ public class TCP_Server {
 					}
 					System.out.println("\n" + date.format(new Date()) + " - Received: " + clientSentence);
 
-					if (clientSentence.length() == 6) {
-						if (clientSentence.startsWith("INCR")) {
-							int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
-							socketHandler.println(sensor.increase(sensorNumber));
-						}
-
-						else if (clientSentence.startsWith("DECR")) {
-							int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
-							socketHandler.println(sensor.decrease(sensorNumber));
-						}
-
-						else if (clientSentence.startsWith("STOP")) {
-							int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
-							socketHandler.println(sensor.stop(sensorNumber));
-						}
-
-						else if (clientSentence.startsWith("STAR")) {
-							int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
-							socketHandler.println(sensor.start(sensorNumber));
-						}
-
-						else {
-							String answer = "\n" + date.format(new Date()) + " - Unknown command!";
-							System.out.println(answer);
-							socketHandler.println("Unknown command.");
-						}
-
-					} else if (clientSentence.equals("LIST")) {
-						socketHandler.println(sensor.list());
-					}
-
-					else if (clientSentence.contains("DELE")) {
-						socketHandler.println(sensor.deleteLog());
-					}
-
-					else {
-						String answer = "\n" + date.format(new Date()) + " - Unknown command!";
-						System.out.println(answer);
-						socketHandler.println("Unknown command.");
-					}
+					serverCommand(sensor, clientSentence);
 
 				}
 
@@ -96,6 +57,50 @@ public class TCP_Server {
 				socketHandler.println("Unsuccessful, no sensor with that value. Try to print list of sensors.");
 				// e.printStackTrace();
 			}
+		}
+	}
+
+	private void serverCommand(SensorHandler sensor, String clientSentence)
+			throws IOException, InterruptedException {
+		if (clientSentence.length() == 6) {
+			if (clientSentence.startsWith("INCR")) {
+				int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
+				socketHandler.println(sensor.increase(sensorNumber));
+			}
+
+			else if (clientSentence.startsWith("DECR")) {
+				int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
+				socketHandler.println(sensor.decrease(sensorNumber));
+			}
+
+			else if (clientSentence.startsWith("STOP")) {
+				int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
+				socketHandler.println(sensor.stop(sensorNumber));
+			}
+
+			else if (clientSentence.startsWith("STAR")) {
+				int sensorNumber = (clientSentence.charAt(5) - '0'); // Get the sensorNumber
+				socketHandler.println(sensor.start(sensorNumber));
+			}
+
+			else {
+				String answer = "\n" + date.format(new Date()) + " - Unknown command!";
+				System.out.println(answer);
+				socketHandler.println("Unknown command.");
+			}
+
+		} else if (clientSentence.equals("LIST")) {
+			socketHandler.println(sensor.list());
+		}
+
+		else if (clientSentence.contains("DELE")) {
+			socketHandler.println(sensor.deleteLog());
+		}
+
+		else {
+			String answer = "\n" + date.format(new Date()) + " - Unknown command!";
+			System.out.println(answer);
+			socketHandler.println("Unknown command.");
 		}
 	}
 

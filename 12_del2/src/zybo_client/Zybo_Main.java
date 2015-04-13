@@ -13,7 +13,7 @@ import java.util.InputMismatchException;
 
 public class Zybo_Main {
 
-	public static void main(String[] args) throws IOException, InterruptedException, ConnectException, UnknownHostException, SocketException {
+	public Zybo_Main() throws IOException, InterruptedException, ConnectException, UnknownHostException, SocketException{
 		boolean connected;
 		String pass;
 		String user;
@@ -180,11 +180,15 @@ public class Zybo_Main {
 			}
 		}
 	}
-
-	private static void getTcpMenu() {
+	
+	private void getTcpMenu() {
 		System.out.println("\nType '1' to list sensors:\n\nType '2' to increase sample rate:\n\nType '3' to decrease sampling rate");
 		System.out.println("\nType '4' to start logging:\n\nType '5' to stop logging:\n\nType '6' to delete sensor-log:");
 		System.out.println("\nType '0' to return to main menu:\n\nType '?' to display help");
+	}
+	
+	public static void main(String[] args) throws IOException, InterruptedException, ConnectException, UnknownHostException, SocketException {
+		new Zybo_Main();
 	}
 
 }
