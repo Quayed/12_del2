@@ -15,7 +15,7 @@ public class TCP_Server {
 
 	private final SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-	SocketHandler socketHandler;
+	private SocketHandler socketHandler;
 
 	public TCP_Server() throws FileNotFoundException, IOException, InterruptedException, SocketException {
 		SensorHandler sensor = new SensorHandler();

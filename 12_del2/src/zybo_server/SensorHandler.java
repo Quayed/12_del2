@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +18,7 @@ public class SensorHandler
 
     public SensorHandler() throws FileNotFoundException, IOException
     {
-        FileReader fil = new FileReader("Sensors.txt");
-        BufferedReader ind = new BufferedReader(fil);
+        BufferedReader ind = new BufferedReader(new FileReader("Sensors.txt"));
 
         String linje = ind.readLine();
         while (linje != null)
@@ -32,6 +30,8 @@ public class SensorHandler
             addSensor(sensorName, sensorRate, sensorValue);
             linje = ind.readLine();
         }
+        
+        ind.close();
     }
 
     private void addSensor(String sensorName, int sensorRate, int sensorValue)
