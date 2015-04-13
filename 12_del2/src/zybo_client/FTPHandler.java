@@ -29,7 +29,7 @@ public class FTPHandler extends SocketHandler {
                     }
                     catch (InterruptedException e)
                     {
-                        e.printStackTrace();;
+                        
                     }
 		}
 	}
