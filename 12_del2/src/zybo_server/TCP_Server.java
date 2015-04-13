@@ -32,7 +32,7 @@ public class TCP_Server {
 
 					clientSentence = socketHandler.readLine();
 					if (clientSentence == null) {
-						System.out.println("Client has disconnected.");
+						System.out.println("\n" + date.format(new Date()) + " - Client has disconnected.");
 						break;
 					}
 					System.out.println("\n" + date.format(new Date()) + " - Received: " + clientSentence);

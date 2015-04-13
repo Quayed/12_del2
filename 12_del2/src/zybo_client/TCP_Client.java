@@ -13,8 +13,8 @@ public class TCP_Client {
 
 	public boolean connect() throws IOException {
 		try {
-			// socketHandler = new SocketHandler("2.108.207.65", 8001);
-			socketHandler = new SocketHandler("localhost", 8001);
+			socketHandler = new SocketHandler("2.108.207.65", 8001);
+			//socketHandler = new SocketHandler("localhost", 8001);
 		} catch (Exception e) {
 			return false;
 		}
