@@ -2,6 +2,8 @@ package zybo_client;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import shared.SocketHandler;
 
@@ -21,6 +23,14 @@ public class FTPHandler extends SocketHandler {
 					&& Character.isDigit(input.charAt(2))) {
 				return input;
 			}
+                    try
+                    {
+                        Thread.sleep(10);
+                    }
+                    catch (InterruptedException e)
+                    {
+                        e.printStackTrace();;
+                    }
 		}
 	}
 
