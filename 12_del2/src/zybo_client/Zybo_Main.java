@@ -23,11 +23,7 @@ public class Zybo_Main {
 		FTP_Client FTP = new FTP_Client();
 
 		TCP_Client tcp = new TCP_Client();
-		// if (!tcp.connect()) // connects to the server
-		// {
-		// System.out.println("\nTCP-server down...");
-		// }
-
+                
 		while (true) {
 			connected = false;
 			System.out.println("\nZybo FTP/TCP-Connecter v0.1");
@@ -121,7 +117,7 @@ public class Zybo_Main {
 
 								else if (cmd.equals("0")) {
 									tcp.disconnect();
-									System.out.println("Disconnected TCP.");
+									System.out.println("\n" + date.format(new Date()) + " - Disconnected TCP.");
 									break;
 								}
 
