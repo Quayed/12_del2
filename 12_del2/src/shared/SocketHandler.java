@@ -40,10 +40,14 @@ public class SocketHandler {
 		return in.readLine();
 	}
 
-	public final void close() throws IOException {
-		in.close();
-		out.close();
-		socket.close();
+	public final void disconnect() {
+		try {
+			in.close();
+			out.close();
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public InetAddress getInetAddress() {
@@ -53,5 +57,13 @@ public class SocketHandler {
 	public BufferedReader getIn() {
 		return in;
 	}
+
+	// public void disconnect() {
+	// try {
+	// socket.close();
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	// }
 
 }
