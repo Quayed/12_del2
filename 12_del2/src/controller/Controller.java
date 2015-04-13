@@ -2,26 +2,23 @@ package controller;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.List;
+import java.util.Scanner;
 
 import entity.Data;
 import entity.IData;
-import entity.dto.FormulaCompDTO;
 import entity.dto.MaterialDTO;
 import entity.dto.OperatorDTO;
 
 public class Controller {
-	private IData data = new Data();
-
+	
 	private static final String DEFAULT_HOST = "localhost";
 	private static final int DEFAULT_PORT = 8000;
-
+	
+	private IData data = new Data();
 	private Connector connector;
 
 	private OperatorDTO currentOperator;
 	private MaterialDTO material;
-
-	private FormulaCompDTO formulaComp;
 
 	public Controller() {
 		this(DEFAULT_HOST, DEFAULT_PORT);
@@ -36,6 +33,7 @@ public class Controller {
 	}
 
 	public Controller(String host, int port) {
+		Scanner in = new Scanner(System.in);
 		try {
 
 			this.connector = new Connector(host, port);
@@ -48,23 +46,28 @@ public class Controller {
 		} catch (IOException e) {
 			System.out.println("Server Error");
 		}
+		finally{
+			System.out.println("Press any key to exit");
+			in.next();
+			in.close();
+		}
 	}
 
 	private void start() throws IOException {
 		// do a command, because the first command do not always work
 		connector.println("S");
 		System.out.println(connector.readLine());
-		boolean running = false;
-		do{
+		boolean running = true;
+		do {
 			try {
 				getOperator();
 				getMaterialBatch();
 				weight();
-				
+
 			} catch (RestartException e) {
-				running = true;
+				continue;
 			}
-		} while(running);
+		} while (running);
 	}
 
 	private void getOperator() throws IOException, RestartException {
@@ -96,65 +99,59 @@ public class Controller {
 				material = data.getMaterialBatch(materialId);
 
 				if (materialId == 0 || material == null) {
-					materialId = connector
-							.getAnId("Ugyldig, material?");
-				} else {
-					if (formulaComp.getMaterialID() != material.getMaterialID()) {
-						materialId = connector.getAnId("Ugyldig, material?");
-					} else
-						break;
-				}
+
+					materialId = connector.getAnId("Ugyldig, material?");
+
+				} else
+					break;
+
 			}
 
-		} while (!connector.confirm("Material name: "+ material.getMaterialName() + "?"));
+		} while (!connector.confirm("Material name: "
+				+ material.getMaterialName() + "?"));
 
 		this.material = material;
 
 	}
 
 	private void weight() throws IOException, RestartException {
-		double
-			materialWeight = 1, // Kunne hentes fra en database
-			tolerance = 0.1, // kunne hentes fra en database
-			tare,
-			netto,
-			gross,
-			tare2;
-		
-		if(!connector.confirm("Placer skål")){
+		double materialWeight = 1, // Kunne hentes fra en database
+		tolerance = 0.1, // kunne hentes fra en database
+		tare, netto, gross, tare2;
+
+		if (!connector.confirm("Placer skål")) {
 			// Afvist
 		}
 		tare = connector.tare();
-		
-		if(!connector.confirm("Læg " + materialWeight + " kg på")){
+
+		if (!connector.confirm("Læg " + materialWeight + " kg på")) {
 			// Afvist
 		}
-		while(true){
+		while (true) {
 			netto = connector.read();
 			gross = netto - tare;
-			if(Math.abs(gross - materialWeight)/materialWeight > tolerance){
+			if (Math.abs(gross - materialWeight) / materialWeight > tolerance) {
 				// Afvejningen er ikke inde for tolerancen
-				if(!connector.confirm("Læg " + materialWeight + " kg på")){
+				if (!connector.confirm("Læg " + materialWeight + " kg på")) {
 					// Afvist
 				}
-			}
-			else{
+			} else {
 				break;
 			}
 		}
-		
-		if(!connector.confirm("Fjern skål")){
+
+		if (!connector.confirm("Fjern skål")) {
 			// Afvist
 		}
 		tare2 = connector.tare();
-		
-	
+
 		// #### Ved ikke om det her skal være der ####
 		if (tare2 < tolerance) {
 			connector.rm20("BRUTTO KONTROL OK");
 			connector.getRM20();
 		}
-				
-		data.updateMaterial(material.getMaterialID(), netto, currentOperator.getOprID());
+
+		data.updateMaterial(material.getMaterialID(), netto,
+				currentOperator.getOprID());
 	}
 }

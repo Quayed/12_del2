@@ -5,16 +5,13 @@ import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import entity.dto.FormulaCompDTO;
 import entity.dto.MaterialDTO;
 import entity.dto.OperatorDTO;
 
@@ -25,7 +22,7 @@ public class Data implements IData {
 	
 	@Override
 	public OperatorDTO getOperator(int oprID) {
-		return new OperatorDTO(oprID, "Test Operatør");
+		return new OperatorDTO(oprID, "Test Operator");
 	}
 	
 	@Override
@@ -94,6 +91,7 @@ public class Data implements IData {
 		String currentDate = String.valueOf(format.format(new Date()));
 		writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("log.txt"), "utf-8"));
 		writer.append(currentDate + "," + String.valueOf(oprID) + "," + String.valueOf(getMaterialID) + "," + String.valueOf(netto) + "," + String.valueOf(materialLeft));
+		writer.close();
 	}
 
 }

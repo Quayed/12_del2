@@ -24,7 +24,7 @@ public class Connector extends SocketHandler{
 		System.out.println(readLine());
 		String msg = readLine();
 		System.out.println(msg);
-		if(msg.substring(8, msg.length()-1) == "00"){
+		if(msg.substring(8, msg.length()-1).equals("00")){
 			throw new RestartException();
 		}
 		return msg.substring(8, msg.length()-1);
