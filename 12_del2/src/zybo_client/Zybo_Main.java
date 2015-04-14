@@ -13,7 +13,7 @@ import java.util.InputMismatchException;
 
 public class Zybo_Main {
 
-	private Zybo_Main() throws IOException, InterruptedException, ConnectException, UnknownHostException, SocketException{
+	private Zybo_Main(String ip) throws IOException, InterruptedException, ConnectException, UnknownHostException, SocketException{
 		boolean connected;
 		String pass;
 		String user;
@@ -41,7 +41,7 @@ public class Zybo_Main {
 							try {
 								System.out.println("\n" + date.format(new Date()) + " - Connecting to server on port 21...");
 
-								if (FTP.connect(user, pass)) {
+								if (FTP.connect(ip, user, pass)) {
 									connected = true;
 								} else {
 									System.out.println("\nCredentials denied!\n");
@@ -100,7 +100,7 @@ public class Zybo_Main {
 				} else if (type == 2) // TCP CONNECTION
 				{
 					try {
-						if (!tcp.connect()) {
+						if (!tcp.connect(ip)) {
 							System.out.println("\nTCP-server down...");
 							continue;
 						}
@@ -184,7 +184,11 @@ public class Zybo_Main {
 	}
 	
 	public static void main(String[] args) throws IOException, InterruptedException, ConnectException, UnknownHostException, SocketException {
-		new Zybo_Main();
+            
+            if (args.length == 1) {
+		new Zybo_Main(args[0]);
+            }
+            else
+                new Zybo_Main("localhost");   
 	}
-
 }
