@@ -38,24 +38,21 @@ public class TCPServer {
 					System.out.println("\n" + date.format(new Date()) + " - Received: " + clientSentence);
 
 					serverCommand(sensor, clientSentence);
-
 				}
-
+                                
 			} catch (BindException e) {
 				System.out.println("\n" + date.format(new Date()) + " - Address already in use. Exiting.");
+                                welcomeSocket.close();
 				System.exit(-1);
-				// e.printStackTrace();
 			} catch (FileNotFoundException e) {
 				System.out.println("\n" + date.format(new Date()) + " - Cannot read sensor-file. Exiting.");
-				System.exit(-1);
-				// e.printStackTrace();
+				welcomeSocket.close();
+                                System.exit(-1);
 			} catch (SocketException e) {
-				// e.printStackTrace();
 				System.out.println("\n" + date.format(new Date()) + " - Client disconnected.");
 			} catch (IndexOutOfBoundsException e) {
 				System.out.println("\n" + date.format(new Date()) + " - Sensor doesn't exist.");
 				socketHandler.println("Unsuccessful, no sensor with that value. Try to print list of sensors.");
-				// e.printStackTrace();
 			}
 		}
 	}
