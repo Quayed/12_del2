@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 
 import shared.SocketHandler;
 
-public class FTP_Client {
+public class FTPClient {
 
 	private FTPHandler ftpHandler;
 

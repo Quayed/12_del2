@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.8" icons="false" automaticImage="PNG" always-add-relationships="true" generalizations="true" 
   realizations="true" associations="true" dependencies="true" nesting-relationships="true">  
-  <class id="1" language="java" name="zybo_client.FTP_Client" project="12_del2" 
-    file="/12_del2/src/zybo_client/FTP_Client.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="1" language="java" name="zybo_client.FTPClient" project="12_del2" 
+    file="/12_del2/src/zybo_client/FTPClient.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="355" y="296"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -19,17 +19,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="zybo_client.TCP_Client" project="12_del2" 
-    file="/12_del2/src/zybo_client/TCP_Client.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="129" y="305"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="4" language="java" name="zybo_client.Zybo_Main" project="12_del2" 
-    file="/12_del2/src/zybo_client/Zybo_Main.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="3" language="java" name="zybo_client.ZyboMain" project="12_del2" 
+    file="/12_del2/src/zybo_client/ZyboMain.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="132" y="111"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -37,18 +28,14 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <dependency id="5">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="1"/>  
-  </dependency>  
-  <dependency id="6">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="3"/>  
-  </dependency>  
-  <association id="7">    
+  <association id="4">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="8" name="ftpHandler"/>      
-      <multiplicity id="9" minimum="0" maximum="1"/>    
+      <attribute id="5" name="ftpHandler">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="6" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  

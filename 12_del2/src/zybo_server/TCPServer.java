@@ -11,13 +11,13 @@ import java.util.Date;
 
 import shared.SocketHandler;
 
-public class TCP_Server {
+public class TCPServer {
 
 	private final SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
 	private SocketHandler socketHandler;
 
-	public TCP_Server() throws FileNotFoundException, IOException, InterruptedException, SocketException {
+	public TCPServer() throws FileNotFoundException, IOException, InterruptedException, SocketException {
 		SensorHandler sensor = new SensorHandler();
 		String clientSentence;
 		ServerSocket welcomeSocket = new ServerSocket(8001);
@@ -105,6 +105,6 @@ public class TCP_Server {
 	}
 
 	public static void main(String argv[]) throws Exception {
-		new TCP_Server();
+		new TCPServer();
 	}
 }
