@@ -11,7 +11,7 @@ public class FTP_Client {
 
 	private FTPHandler ftpHandler;
 
-	public boolean connect(String ip, String user, String pass) throws IOException, InterruptedException {
+	public boolean connect(String ip, String user, String pass) throws IOException {
 		
 		ftpHandler = new FTPHandler(ip, 21);
 
