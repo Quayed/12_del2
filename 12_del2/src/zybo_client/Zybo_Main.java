@@ -9,47 +9,43 @@ import java.util.InputMismatchException;
 public class Zybo_Main
 {
 
-    private int answer;
-    private final java.util.Scanner ints;
+    private String answer;
+    private final java.util.Scanner in;
 
     private Zybo_Main(String ip) throws IOException
     {
-        ints = new java.util.Scanner(System.in);
+        in = new java.util.Scanner(System.in);
         while (true)
         {
-            try
+        	
+            getMenu();
+            answer = in.nextLine();
+            
+            if (answer.equals("1"))
             {
-                getMenu();
-                answer = ints.nextInt();
-                if (answer == 1)
+                FtpMenu ftp = new FtpMenu(); // FTP CONNECTION
+                if (ftp.connectFTP(ip))
                 {
-                    FtpMenu ftp = new FtpMenu();
-                    if (ftp.connectFTP(ip))
-                    {
-                        ftp.getMenu();
-                        ftp.getOptions();
-                    }
-                }
-
-                else if (answer == 2) // TCP CONNECTION
-                {
-                    TcpMenu tcp = new TcpMenu();
-                    if (tcp.connectTCP(ip))
-                    {
-                        tcp.getTcpMenu();
-                        tcp.getOptions();
-                    }
+                    ftp.getMenu();
+                    ftp.getOptions();
                 }
             }
-            catch (NumberFormatException | InputMismatchException e)
+            else if (answer.equals("2")) // TCP CONNECTION
             {
-                // e.printStackTrace();
-                System.out.println(" - Wrong Input.");
+                TcpMenu tcp = new TcpMenu();
+                if (tcp.connectTCP(ip))
+                {
+                    tcp.getTcpMenu();
+                    tcp.getOptions();
+                }
+            }
+            else{
+            	System.out.println("Invalid input");
             }
         }
     }
     
-    public void getMenu()
+    private void getMenu()
     {
         System.out.println("Press '1' for FTP");
         System.out.println("Press '2' for TCPP");

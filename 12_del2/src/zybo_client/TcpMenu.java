@@ -13,37 +13,32 @@ public class TcpMenu
     private final SimpleDateFormat date;
     private final java.util.Scanner key;
     private final java.util.Scanner ints;
-    private final TCP_Client tcp;
+    private TCPHandler tcp;
 
     public TcpMenu()
     {
         date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         key = new java.util.Scanner(System.in);
         ints = new java.util.Scanner(System.in);
-        tcp = new TCP_Client();
-
     }
 
     public boolean connectTCP(String ip) throws IOException
     {
         try
         {
-            tcp.connect(ip);
+            tcp = new TCPHandler(ip);
             return true;
         }
         catch (ConnectException e)
         {
-            // e.printStackTrace();
             System.out.println("\n" + date.format(new Date()) + " - Connection timed out.");
         }
         catch (UnknownHostException e)
         {
-            // e.printStackTrace();
             System.out.println("\n" + date.format(new Date()) + " - Unknown host.");
         }
         catch (SocketException e)
         {
-            // e.printStackTrace();
             System.out.println("\n" + date.format(new Date()) + " - Network is unreachable.");
         }
         return false;
