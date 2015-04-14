@@ -11,9 +11,9 @@ public class TCP_Client {
 	private String modifiedSentence;
 	private SocketHandler socketHandler;
 
-	public boolean connect() throws IOException {
+	public boolean connect(String ip) throws IOException {
 		try {
-			socketHandler = new SocketHandler("2.108.207.65", 8001);
+			socketHandler = new SocketHandler(ip, 8001);
 			//socketHandler = new SocketHandler("localhost", 8001);
 		} catch (Exception e) {
 			return false;
