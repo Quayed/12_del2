@@ -21,7 +21,7 @@ public class Zybo_Main
             {
                 getMenu();
                 answer = ints.nextInt();
-                if (answer == 1)
+                if (answer == 1) // FTP CONNECTION
                 {
                     FtpMenu ftp = new FtpMenu();
                     if (ftp.connectFTP(ip))
@@ -49,7 +49,7 @@ public class Zybo_Main
         }
     }
     
-    public void getMenu()
+    private void getMenu()
     {
         System.out.println("Press '1' for FTP");
         System.out.println("Press '2' for TCPP");
